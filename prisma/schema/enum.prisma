@@ -1,0 +1,30 @@
+enum Role {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE      
+  INACTIVE    
+  BANNED      
+  PENDING    
+}
+
+
+enum TravelType {
+  SOLO
+  FRIENDS
+  FAMILY
+  COUPLE
+}
+
+enum SubscriptionType {
+  MONTHLY
+  YEARLY
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
