@@ -1,3 +1,4 @@
+import config from "../../../config";
 import ApiError from "../../errors/ApiError";
 import { jwtHelper } from "../../helper/jwtHelper";
 import { prisma } from "../../shared/prisma";
@@ -18,8 +19,8 @@ const login = async (payload: { email: string; password: string }) => {
 
   const accessToken = jwtHelper.generateToken(
     { email: user.email, role: user.role },
-    "abcd",
-    "1d"
+    config.jwt.jwt_secret as string,
+    config.jwt.expires_in as string
   );
 
   const refreshToken = jwtHelper.generateToken(
