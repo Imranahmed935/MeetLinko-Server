@@ -4,6 +4,7 @@ import { prisma } from "../../shared/prisma";
 import { fileUploader } from "../../helper/imageUpload";
 
 
+
 const createUser = async (req: Request) => {
   let profileImageUrl: string | undefined;
 
@@ -36,7 +37,22 @@ const createUser = async (req: Request) => {
 };
 
 
+const userGetById = async (id:any) => {
+ const result = await prisma.user.findUnique({
+  where:{
+    id:id
+  }
+ })
+
+ return result
+  
+};
+
+
+
+
 
 export const userService = {
-    createUser
+    createUser,
+    userGetById
 }
