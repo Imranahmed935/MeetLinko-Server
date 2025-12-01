@@ -1,9 +1,8 @@
 import { Request } from "express";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
 import { prisma } from "../../shared/prisma";
 import { fileUploader } from "../../helper/imageUpload";
-
-
+import { UserUpdateInput } from "../../../generated/models";
 
 const createUser = async (req: Request) => {
   let profileImageUrl: string | undefined;
@@ -13,7 +12,16 @@ const createUser = async (req: Request) => {
     profileImageUrl = uploadResult?.secure_url;
   }
 
-  const { fullName, email, password, bio, travelInterests, visitedCountries, currentLocation, role } = req.body.user || req.body;
+  const {
+    fullName,
+    email,
+    password,
+    bio,
+    travelInterests,
+    visitedCountries,
+    currentLocation,
+    role,
+  } = req.body.user || req.body;
 
   const hashPassword = await bcrypt.hash(password, 10);
 
@@ -23,7 +31,7 @@ const createUser = async (req: Request) => {
         fullName,
         email,
         password: hashPassword,
-        profileImage: profileImageUrl ?? null, 
+        profileImage: profileImageUrl ?? null,
         bio: bio ?? null,
         travelInterests: travelInterests ?? [],
         visitedCountries: visitedCountries ?? [],
@@ -36,23 +44,31 @@ const createUser = async (req: Request) => {
   return result;
 };
 
+const userGetById = async (id: any) => {
+  const result = await prisma.user.findUnique({
+    where: {
+      id: id,
+    },
+  });
 
-const userGetById = async (id:any) => {
- const result = await prisma.user.findUnique({
-  where:{
-    id:id
-  }
- })
-
- return result
-  
+  return result;
 };
 
 
+const updateUser = async (payload:Partial<UserUpdateInput>, id: any) => {
+  const {password, ...payloadInfo} = payload;
+  const result = await prisma.user.update({
+    where: {
+      id: id,
+    },
+    data: payloadInfo,
+  });
 
-
+  return result;
+};
 
 export const userService = {
-    createUser,
-    userGetById
-}
+  createUser,
+  userGetById,
+  updateUser,
+};

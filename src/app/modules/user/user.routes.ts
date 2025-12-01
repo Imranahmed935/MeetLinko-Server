@@ -15,5 +15,6 @@ router.post(
 );
 
 router.get("/:id", userController.userGetById)
+router.patch("/:id", userController.updateUser)
 
 export const userRoutes = router;
