@@ -8,7 +8,6 @@ model User {
   travelInterests  String[]        
   visitedCountries String[]       
   currentLocation  String?
-  status           UserStatus    @default(PENDING)
   role             Role          @default(USER)
   verified         Boolean       @default(false)
   subscription     Subscription? @relation("SubscriptionToUser") 

@@ -1,13 +1,13 @@
 import { Server } from "http";
 import app from "./app";
+import config from "./config";
 
-const PORT = process.env.PORT || 5000;
 
 async function startServer() {
   let server: Server;
   try {
-    server = app.listen(PORT, () => {
-      console.log(`🚀 MeetLinko Server is running on port ${PORT}`);
+    server = app.listen(config.port, () => {
+      console.log(`🚀 MeetLinko Server is running on port ${config.port}`);
     });
 
     const exitHandler = () => {
