@@ -53,6 +53,10 @@ const userGetById = async (id: any) => {
 
   return result;
 };
+const getAllUser = async () => {
+  const result = await prisma.user.findMany()
+  return result;
+};
 
 const updateUser = async (payload:Partial<UserUpdateInput>, id: any) => {
   const {password, ...payloadInfo} = payload;
@@ -70,4 +74,5 @@ export const userService = {
   createUser,
   userGetById,
   updateUser,
+  getAllUser
 };

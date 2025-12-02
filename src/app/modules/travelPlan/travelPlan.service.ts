@@ -1,3 +1,4 @@
+
 import { prisma } from "../../shared/prisma";
 
 const createPlan = async (payload: any) => {
@@ -8,10 +9,27 @@ const createPlan = async (payload: any) => {
   return result;
 };
 
+
+const getTravelPlanById = async (id: string) => {
+  const result = await prisma.travelPlan.findUnique({
+    where: {
+      id: id,
+    },
+    include:{
+      host:true,
+      participants:true,
+      reviews:true
+    }
+  });
+  return result;
+};
+
+
 const getAllTravelPlan = async () => {
   const result = await prisma.travelPlan.findMany();
   return result;
 };
+
 
 const updatePlan = async (payload: any, id: string) => {
   const result = await prisma.travelPlan.update({
@@ -22,7 +40,6 @@ const updatePlan = async (payload: any, id: string) => {
   });
   return result;
 };
-
 
 const deletePlan = async (id: string) => {
   const result = await prisma.travelPlan.delete({
@@ -37,5 +54,6 @@ export const travelPlanService = {
   createPlan,
   getAllTravelPlan,
   updatePlan,
-  deletePlan
+  deletePlan,
+  getTravelPlanById,
 };
