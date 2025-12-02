@@ -14,6 +14,18 @@ const createPlan = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
+  const result = await travelPlanService.getAllTravelPlan();
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "All Travel Plan Retrived Successfully!",
+    data: result,
+  });
+});
+
 export const travelPlanController = {
   createPlan,
+  getAllTravelPlan
 };
