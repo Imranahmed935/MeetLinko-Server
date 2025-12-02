@@ -16,7 +16,6 @@ const createPlan = catchAsync(async (req: Request, res: Response) => {
 
 const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
   const result = await travelPlanService.getAllTravelPlan();
-
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -36,8 +35,21 @@ const updatePlan = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const deletePlan = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await travelPlanService.deletePlan(id as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Travel Plan Deleted Successfully!",
+    data: result,
+  });
+});
+
 export const travelPlanController = {
   createPlan,
   getAllTravelPlan,
   updatePlan,
+  deletePlan
 };

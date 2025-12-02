@@ -23,8 +23,19 @@ const updatePlan = async (payload: any, id: string) => {
   return result;
 };
 
+
+const deletePlan = async (id: string) => {
+  const result = await prisma.travelPlan.delete({
+    where: {
+      id: id,
+    },
+  });
+  return result;
+};
+
 export const travelPlanService = {
   createPlan,
   getAllTravelPlan,
   updatePlan,
+  deletePlan
 };

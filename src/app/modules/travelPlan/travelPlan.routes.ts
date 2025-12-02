@@ -7,5 +7,6 @@ const router = express.Router();
 router.get("/", travelPlanController.getAllTravelPlan)
 router.post("/create", travelPlanController.createPlan)
 router.patch("/:id", travelPlanController.updatePlan)
+router.delete("/:id", travelPlanController.deletePlan)
 
 export const travelPlanRoutes = router;
