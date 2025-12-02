@@ -1,10 +1,10 @@
+
 model Payment {
   id              String        @id @default(uuid())
   userId          String
   user            User          @relation(fields: [userId], references: [id])
   amount          Float
-  currency        String        @default("USD")
-  status          PaymentStatus @default(PENDING)
+  status          PaymentStatus @default(UNPAID)
   provider        String
   paymentIntentId String?       
   createdAt       DateTime      @default(now())

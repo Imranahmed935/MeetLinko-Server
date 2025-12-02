@@ -28,7 +28,6 @@ enum SubscriptionType {
 }
 
 enum PaymentStatus {
-  PENDING
-  SUCCESS
-  FAILED
+  PAID
+  UNPAID
 }

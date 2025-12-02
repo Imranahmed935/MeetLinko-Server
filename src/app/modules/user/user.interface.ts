@@ -19,6 +19,7 @@ export type User = {
   currentLocation: string | null;    
   role: Role;                         
   verified: boolean;
+  subscriptionActive :  Boolean    
   subscription?: Subscription | null; 
   travelPlans: TravelPlan[];          
   joinedPlans: TravelPlan[];          

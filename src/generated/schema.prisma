@@ -17,6 +17,7 @@ enum TravelType {
   SOLO
   FRIENDS
   HONEYMOON
+  COUPLE
 }
 
 enum SubscriptionType {
@@ -25,9 +26,8 @@ enum SubscriptionType {
 }
 
 enum PaymentStatus {
-  PENDING
-  SUCCESS
-  FAILED
+  PAID
+  UNPAID
 }
 
 model Payment {
@@ -35,8 +35,7 @@ model Payment {
   userId          String
   user            User          @relation(fields: [userId], references: [id])
   amount          Float
-  currency        String        @default("USD")
-  status          PaymentStatus @default(PENDING)
+  status          PaymentStatus @default(UNPAID)
   provider        String
   paymentIntentId String?
   createdAt       DateTime      @default(now())
@@ -103,24 +102,26 @@ model TravelPlan {
 }
 
 model User {
-  id               String        @id @default(uuid())
-  fullName         String
-  email            String        @unique
-  password         String
-  profileImage     String?
-  bio              String?
-  travelInterests  String[]
-  visitedCountries String[]
-  currentLocation  String?
-  role             Role          @default(USER)
-  verified         Boolean       @default(false)
-  subscription     Subscription? @relation("SubscriptionToUser")
-  travelPlans      TravelPlan[]
-  joinedPlans      TravelPlan[]  @relation("PlanParticipants")
-  reviews          Review[]
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  payments         Payment[]
+  id                    String        @id @default(uuid())
+  fullName              String
+  email                 String        @unique
+  password              String
+  profileImage          String?
+  bio                   String?
+  travelInterests       String[]
+  visitedCountries      String[]
+  currentLocation       String?
+  role                  Role          @default(USER)
+  verified              Boolean       @default(false)
+  subscription          Subscription? @relation("SubscriptionToUser")
+  travelPlans           TravelPlan[]
+  subscriptionActive    Boolean       @default(false)
+  subscriptionExpiresAt DateTime?
+  joinedPlans           TravelPlan[]  @relation("PlanParticipants")
+  reviews               Review[]
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  payments              Payment[]
 
   @@map("users")
 }

@@ -125,7 +125,6 @@ exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   amount: 'amount',
-  currency: 'currency',
   status: 'status',
   provider: 'provider',
   paymentIntentId: 'paymentIntentId',
@@ -180,6 +179,8 @@ exports.Prisma.UserScalarFieldEnum = {
   currentLocation: 'currentLocation',
   role: 'role',
   verified: 'verified',
+  subscriptionActive: 'subscriptionActive',
+  subscriptionExpiresAt: 'subscriptionExpiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -199,9 +200,8 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.PaymentStatus = exports.$Enums.PaymentStatus = {
-  PENDING: 'PENDING',
-  SUCCESS: 'SUCCESS',
-  FAILED: 'FAILED'
+  PAID: 'PAID',
+  UNPAID: 'UNPAID'
 };
 
 exports.SubscriptionType = exports.$Enums.SubscriptionType = {
