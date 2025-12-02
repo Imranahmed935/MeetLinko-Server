@@ -210,9 +210,12 @@ exports.SubscriptionType = exports.$Enums.SubscriptionType = {
 };
 
 exports.TravelType = exports.$Enums.TravelType = {
+  ADVENTURE: 'ADVENTURE',
+  BUSINESS: 'BUSINESS',
+  FAMILY: 'FAMILY',
   SOLO: 'SOLO',
   FRIENDS: 'FRIENDS',
-  FAMILY: 'FAMILY',
+  HONEYMOON: 'HONEYMOON',
   COUPLE: 'COUPLE'
 };
 

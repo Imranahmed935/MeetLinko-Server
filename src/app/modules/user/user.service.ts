@@ -54,7 +54,6 @@ const userGetById = async (id: any) => {
   return result;
 };
 
-
 const updateUser = async (payload:Partial<UserUpdateInput>, id: any) => {
   const {password, ...payloadInfo} = payload;
   const result = await prisma.user.update({

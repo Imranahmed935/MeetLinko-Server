@@ -183,9 +183,12 @@ exports.UserStatus = exports.$Enums.UserStatus = {
 };
 
 exports.TravelType = exports.$Enums.TravelType = {
+  ADVENTURE: 'ADVENTURE',
+  BUSINESS: 'BUSINESS',
+  FAMILY: 'FAMILY',
   SOLO: 'SOLO',
   FRIENDS: 'FRIENDS',
-  FAMILY: 'FAMILY',
+  HONEYMOON: 'HONEYMOON',
   COUPLE: 'COUPLE'
 };
 
@@ -236,7 +239,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma/schema",
@@ -246,7 +249,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -255,8 +257,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "enum Role {\n  USER\n  ADMIN\n}\n\nenum UserStatus {\n  ACTIVE\n  INACTIVE\n  BANNED\n  PENDING\n}\n\nenum TravelType {\n  SOLO\n  FRIENDS\n  FAMILY\n  COUPLE\n}\n\nenum SubscriptionType {\n  MONTHLY\n  YEARLY\n}\n\nenum PaymentStatus {\n  PENDING\n  SUCCESS\n  FAILED\n}\n\nmodel Payment {\n  id              String        @id @default(uuid())\n  userId          String\n  user            User          @relation(fields: [userId], references: [id])\n  amount          Float\n  currency        String        @default(\"USD\")\n  status          PaymentStatus @default(PENDING)\n  provider        String\n  paymentIntentId String?\n  createdAt       DateTime      @default(now())\n  updatedAt       DateTime      @updatedAt\n\n  @@map(\"payments\")\n}\n\nmodel Review {\n  id           String     @id @default(uuid())\n  rating       Int        @default(5)\n  comment      String\n  reviewer     User       @relation(fields: [reviewerId], references: [id])\n  reviewerId   String\n  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id])\n  travelPlanId String\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n\n  @@map(\"reviews\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Subscription {\n  id        String           @id @default(uuid())\n  type      SubscriptionType\n  startDate DateTime         @default(now())\n  endDate   DateTime\n  user      User             @relation(\"SubscriptionToUser\", fields: [userId], references: [id])\n  userId    String           @unique\n  createdAt DateTime         @default(now())\n  updatedAt DateTime         @updatedAt\n\n  @@map(\"subscriptions\")\n}\n\nmodel TravelPlan {\n  id           String     @id @default(uuid())\n  title        String\n  destination  String\n  startDate    DateTime\n  endDate      DateTime\n  budget       Float\n  travelType   TravelType\n  description  String?\n  visibility   Boolean    @default(true)\n  hostId       String\n  host         User       @relation(fields: [hostId], references: [id])\n  participants User[]     @relation(\"PlanParticipants\")\n  reviews      Review[]\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n\n  @@map(\"travelPlans\")\n}\n\nmodel User {\n  id               String        @id @default(uuid())\n  fullName         String\n  email            String        @unique\n  password         String\n  profileImage     String?\n  bio              String?\n  travelInterests  String[]\n  visitedCountries String[]\n  currentLocation  String?\n  role             Role          @default(USER)\n  verified         Boolean       @default(false)\n  subscription     Subscription? @relation(\"SubscriptionToUser\")\n  travelPlans      TravelPlan[]\n  joinedPlans      TravelPlan[]  @relation(\"PlanParticipants\")\n  reviews          Review[]\n  createdAt        DateTime      @default(now())\n  updatedAt        DateTime      @updatedAt\n  payments         Payment[]\n\n  @@map(\"users\")\n}\n",
-  "inlineSchemaHash": "dc1200247176b5955de11f0630c5c89fb81a169aed71d9e6ce6602c1fa17698e",
+  "inlineSchema": "enum Role {\n  USER\n  ADMIN\n}\n\nenum UserStatus {\n  ACTIVE\n  INACTIVE\n  BANNED\n  PENDING\n}\n\nenum TravelType {\n  ADVENTURE\n  BUSINESS\n  FAMILY\n  SOLO\n  FRIENDS\n  HONEYMOON\n  COUPLE\n}\n\nenum SubscriptionType {\n  MONTHLY\n  YEARLY\n}\n\nenum PaymentStatus {\n  PENDING\n  SUCCESS\n  FAILED\n}\n\nmodel Payment {\n  id              String        @id @default(uuid())\n  userId          String\n  user            User          @relation(fields: [userId], references: [id])\n  amount          Float\n  currency        String        @default(\"USD\")\n  status          PaymentStatus @default(PENDING)\n  provider        String\n  paymentIntentId String?\n  createdAt       DateTime      @default(now())\n  updatedAt       DateTime      @updatedAt\n\n  @@map(\"payments\")\n}\n\nmodel Review {\n  id           String     @id @default(uuid())\n  rating       Int        @default(5)\n  comment      String\n  reviewer     User       @relation(fields: [reviewerId], references: [id])\n  reviewerId   String\n  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id])\n  travelPlanId String\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n\n  @@map(\"reviews\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Subscription {\n  id        String           @id @default(uuid())\n  type      SubscriptionType\n  startDate DateTime         @default(now())\n  endDate   DateTime\n  user      User             @relation(\"SubscriptionToUser\", fields: [userId], references: [id])\n  userId    String           @unique\n  createdAt DateTime         @default(now())\n  updatedAt DateTime         @updatedAt\n\n  @@map(\"subscriptions\")\n}\n\nmodel TravelPlan {\n  id           String     @id @default(uuid())\n  title        String\n  destination  String\n  startDate    DateTime\n  endDate      DateTime\n  budget       Float\n  travelType   TravelType\n  description  String?\n  visibility   Boolean    @default(true)\n  hostId       String\n  host         User       @relation(fields: [hostId], references: [id])\n  participants User[]     @relation(\"PlanParticipants\")\n  reviews      Review[]\n  createdAt    DateTime   @default(now())\n  updatedAt    DateTime   @updatedAt\n\n  @@map(\"travelPlans\")\n}\n\nmodel User {\n  id               String        @id @default(uuid())\n  fullName         String\n  email            String        @unique\n  password         String\n  profileImage     String?\n  bio              String?\n  travelInterests  String[]\n  visitedCountries String[]\n  currentLocation  String?\n  role             Role          @default(USER)\n  verified         Boolean       @default(false)\n  subscription     Subscription? @relation(\"SubscriptionToUser\")\n  travelPlans      TravelPlan[]\n  joinedPlans      TravelPlan[]  @relation(\"PlanParticipants\")\n  reviews          Review[]\n  createdAt        DateTime      @default(now())\n  updatedAt        DateTime      @updatedAt\n  payments         Payment[]\n\n  @@map(\"users\")\n}\n",
+  "inlineSchemaHash": "ac2a4d5a36d99acaa15d04d2f1b443fa33167ec09e2807d4c190a20687182261",
   "copyEngine": true
 }
 config.dirname = '/'

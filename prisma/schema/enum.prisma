@@ -12,11 +12,15 @@ enum UserStatus {
 
 
 enum TravelType {
+  ADVENTURE
+  BUSINESS
+  FAMILY
   SOLO
   FRIENDS
-  FAMILY
+  HONEYMOON
   COUPLE
 }
+
 
 enum SubscriptionType {
   MONTHLY

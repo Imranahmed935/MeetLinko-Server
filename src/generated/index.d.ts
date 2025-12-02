@@ -62,9 +62,12 @@ export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
 
 export const TravelType: {
+  ADVENTURE: 'ADVENTURE',
+  BUSINESS: 'BUSINESS',
+  FAMILY: 'FAMILY',
   SOLO: 'SOLO',
   FRIENDS: 'FRIENDS',
-  FAMILY: 'FAMILY',
+  HONEYMOON: 'HONEYMOON',
   COUPLE: 'COUPLE'
 };
 
