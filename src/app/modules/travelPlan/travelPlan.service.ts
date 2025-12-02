@@ -8,13 +8,23 @@ const createPlan = async (payload: any) => {
   return result;
 };
 
-
 const getAllTravelPlan = async () => {
   const result = await prisma.travelPlan.findMany();
   return result;
 };
 
+const updatePlan = async (payload: any, id: string) => {
+  const result = await prisma.travelPlan.update({
+    where: {
+      id: id,
+    },
+    data: payload,
+  });
+  return result;
+};
+
 export const travelPlanService = {
   createPlan,
-  getAllTravelPlan
+  getAllTravelPlan,
+  updatePlan,
 };

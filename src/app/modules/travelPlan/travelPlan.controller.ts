@@ -25,7 +25,19 @@ const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updatePlan = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await travelPlanService.updatePlan(req.body, id as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Travel Plan Updated Successfully!",
+    data: result,
+  });
+});
+
 export const travelPlanController = {
   createPlan,
-  getAllTravelPlan
+  getAllTravelPlan,
+  updatePlan,
 };
