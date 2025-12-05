@@ -1,14 +1,14 @@
-
 model Payment {
   id              String        @id @default(uuid())
   userId          String
   user            User          @relation(fields: [userId], references: [id])
   amount          Float
-  subscriptionId    String
-  subscription    Subscription @relation(fields: [subscriptionId], references: [id])
+  paymentGetWayData Json?
+  subscriptionId  String
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
   status          PaymentStatus @default(UNPAID)
   provider        String?
-  paymentIntentId String?       
+  paymentIntentId String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 

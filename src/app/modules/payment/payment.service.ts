@@ -1,9 +1,7 @@
-
 import { Request, Response } from "express";
 import { stripe } from "../../helper/stripe";
 import { prisma } from "../../shared/prisma";
 import { PaymentStatus } from "../../../generated";
-
 
 const createCheckoutSession = async (payload: any) => {
   const { userId, planType } = payload;
@@ -20,7 +18,6 @@ const createCheckoutSession = async (payload: any) => {
   const startDate = new Date();
   const endDate = calculateExpiry(planType);
 
-  
   const subscription = await prisma.subscription.upsert({
     where: { userId },
     update: {
@@ -37,8 +34,7 @@ const createCheckoutSession = async (payload: any) => {
     },
   });
 
-  
-  const amount = planType === "WEEKLY" ? 10 : planType === "MONTHLY" ? 50 : 100; 
+  const amount = planType === "WEEKLY" ? 10 : planType === "MONTHLY" ? 50 : 100;
   const payment = await prisma.payment.create({
     data: {
       amount,
@@ -48,7 +44,6 @@ const createCheckoutSession = async (payload: any) => {
     },
   });
 
-  
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
@@ -60,6 +55,8 @@ const createCheckoutSession = async (payload: any) => {
       userId,
     },
   });
+
+  console.log(session);
 
   return { url: session.url };
 };
@@ -73,33 +70,38 @@ export const handleWebhook = async (req: Request, res: Response) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      "whsec_63b8794070ddfc1a004670a69f45296f4dce3ce825ae2156311cb4197b755a46"
+      process.env.WEBHOOK_SECRET as string
     );
   } catch (error: any) {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as any;
-
-    const userId = session.metadata?.userId;
-    const paymentId = session.metadata?.paymentId;
+    const invoice = event.data.object as any;
+    console.log(invoice);
+    const userId = invoice.metadata?.userId;
+    const paymentId = invoice.metadata?.paymentId;
 
     if (!userId || !paymentId) {
-      return res.status(400).json({ error: "Missing userId or paymentId in metadata" });
+      return res
+        .status(400)
+        .json({ error: "Missing userId or paymentId in metadata" });
     }
 
     try {
       await prisma.payment.update({
         where: { id: paymentId },
         data: {
-          status: session.payment_status === "paid" ? PaymentStatus.PAID : PaymentStatus.UNPAID,
+          status:
+            invoice.payment_status === "paid"
+              ? PaymentStatus.PAID
+              : PaymentStatus.UNPAID,
         },
       });
 
       await prisma.user.update({
         where: { id: userId },
-        data: {verified: true},
+        data: { verified: true },
       });
     } catch (err) {
       console.error("Prisma update error:", err);
@@ -111,7 +113,6 @@ export const handleWebhook = async (req: Request, res: Response) => {
 
   return res.json({ received: true });
 };
-
 
 function calculateExpiry(planType: string) {
   const date = new Date();
@@ -127,4 +128,3 @@ export const paymentService = {
   createCheckoutSession,
   handleWebhook,
 };
-
