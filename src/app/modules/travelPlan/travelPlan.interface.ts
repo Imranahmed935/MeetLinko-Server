@@ -1,4 +1,5 @@
-import { TravelType } from "../../../generated/enums";
+import { TravelType } from "../../../generated";
+
 
 export type IPlanFilterRequest = {
     destination?: string | undefined;

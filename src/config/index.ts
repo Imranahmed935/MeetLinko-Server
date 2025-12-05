@@ -23,5 +23,6 @@ export default {
     admin:{
         super_admin_email:process.env.SUPER_ADMIN_EMAIL,
         super_admin_pass:process.env.SUPER_ADMIN_PASS
-    }
+    },
+    frontend_url:process.env.FRONTEND_URL
 }
