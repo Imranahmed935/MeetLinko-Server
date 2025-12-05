@@ -178,6 +178,7 @@ exports.Prisma.UserScalarFieldEnum = {
   travelInterests: 'travelInterests',
   visitedCountries: 'visitedCountries',
   currentLocation: 'currentLocation',
+  userStatus: 'userStatus',
   role: 'role',
   verified: 'verified',
   subscriptionActive: 'subscriptionActive',
@@ -219,6 +220,14 @@ exports.TravelType = exports.$Enums.TravelType = {
   FRIENDS: 'FRIENDS',
   HONEYMOON: 'HONEYMOON',
   COUPLE: 'COUPLE'
+};
+
+exports.Status = exports.$Enums.Status = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  BANNED: 'BANNED',
+  PENDING: 'PENDING',
+  DELETED: 'DELETED'
 };
 
 exports.Role = exports.$Enums.Role = {

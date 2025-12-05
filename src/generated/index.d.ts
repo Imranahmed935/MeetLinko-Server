@@ -51,14 +51,15 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const UserStatus: {
+export const Status: {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   BANNED: 'BANNED',
-  PENDING: 'PENDING'
+  PENDING: 'PENDING',
+  DELETED: 'DELETED'
 };
 
-export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
+export type Status = (typeof Status)[keyof typeof Status]
 
 
 export const TravelType: {
@@ -96,9 +97,9 @@ export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
 
-export type UserStatus = $Enums.UserStatus
+export type Status = $Enums.Status
 
-export const UserStatus: typeof $Enums.UserStatus
+export const Status: typeof $Enums.Status
 
 export type TravelType = $Enums.TravelType
 
@@ -6077,6 +6078,7 @@ export namespace Prisma {
     profileImage: string | null
     bio: string | null
     currentLocation: string | null
+    userStatus: $Enums.Status | null
     role: $Enums.Role | null
     verified: boolean | null
     subscriptionActive: boolean | null
@@ -6093,6 +6095,7 @@ export namespace Prisma {
     profileImage: string | null
     bio: string | null
     currentLocation: string | null
+    userStatus: $Enums.Status | null
     role: $Enums.Role | null
     verified: boolean | null
     subscriptionActive: boolean | null
@@ -6111,6 +6114,7 @@ export namespace Prisma {
     travelInterests: number
     visitedCountries: number
     currentLocation: number
+    userStatus: number
     role: number
     verified: number
     subscriptionActive: number
@@ -6129,6 +6133,7 @@ export namespace Prisma {
     profileImage?: true
     bio?: true
     currentLocation?: true
+    userStatus?: true
     role?: true
     verified?: true
     subscriptionActive?: true
@@ -6145,6 +6150,7 @@ export namespace Prisma {
     profileImage?: true
     bio?: true
     currentLocation?: true
+    userStatus?: true
     role?: true
     verified?: true
     subscriptionActive?: true
@@ -6163,6 +6169,7 @@ export namespace Prisma {
     travelInterests?: true
     visitedCountries?: true
     currentLocation?: true
+    userStatus?: true
     role?: true
     verified?: true
     subscriptionActive?: true
@@ -6254,6 +6261,7 @@ export namespace Prisma {
     travelInterests: string[]
     visitedCountries: string[]
     currentLocation: string | null
+    userStatus: $Enums.Status
     role: $Enums.Role
     verified: boolean
     subscriptionActive: boolean
@@ -6289,6 +6297,7 @@ export namespace Prisma {
     travelInterests?: boolean
     visitedCountries?: boolean
     currentLocation?: boolean
+    userStatus?: boolean
     role?: boolean
     verified?: boolean
     subscriptionActive?: boolean
@@ -6313,6 +6322,7 @@ export namespace Prisma {
     travelInterests?: boolean
     visitedCountries?: boolean
     currentLocation?: boolean
+    userStatus?: boolean
     role?: boolean
     verified?: boolean
     subscriptionActive?: boolean
@@ -6331,6 +6341,7 @@ export namespace Prisma {
     travelInterests?: boolean
     visitedCountries?: boolean
     currentLocation?: boolean
+    userStatus?: boolean
     role?: boolean
     verified?: boolean
     subscriptionActive?: boolean
@@ -6349,6 +6360,7 @@ export namespace Prisma {
     travelInterests?: boolean
     visitedCountries?: boolean
     currentLocation?: boolean
+    userStatus?: boolean
     role?: boolean
     verified?: boolean
     subscriptionActive?: boolean
@@ -6357,7 +6369,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "profileImage" | "bio" | "travelInterests" | "visitedCountries" | "currentLocation" | "role" | "verified" | "subscriptionActive" | "subscriptionExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "password" | "profileImage" | "bio" | "travelInterests" | "visitedCountries" | "currentLocation" | "userStatus" | "role" | "verified" | "subscriptionActive" | "subscriptionExpiresAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subscription?: boolean | User$subscriptionArgs<ExtArgs>
     travelPlans?: boolean | User$travelPlansArgs<ExtArgs>
@@ -6388,6 +6400,7 @@ export namespace Prisma {
       travelInterests: string[]
       visitedCountries: string[]
       currentLocation: string | null
+      userStatus: $Enums.Status
       role: $Enums.Role
       verified: boolean
       subscriptionActive: boolean
@@ -6831,6 +6844,7 @@ export namespace Prisma {
     readonly travelInterests: FieldRef<"User", 'String[]'>
     readonly visitedCountries: FieldRef<"User", 'String[]'>
     readonly currentLocation: FieldRef<"User", 'String'>
+    readonly userStatus: FieldRef<"User", 'Status'>
     readonly role: FieldRef<"User", 'Role'>
     readonly verified: FieldRef<"User", 'Boolean'>
     readonly subscriptionActive: FieldRef<"User", 'Boolean'>
@@ -7441,6 +7455,7 @@ export namespace Prisma {
     travelInterests: 'travelInterests',
     visitedCountries: 'visitedCountries',
     currentLocation: 'currentLocation',
+    userStatus: 'userStatus',
     role: 'role',
     verified: 'verified',
     subscriptionActive: 'subscriptionActive',
@@ -7583,6 +7598,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status'
+   */
+  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Status[]'
+   */
+  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
     
 
 
@@ -7932,6 +7961,7 @@ export namespace Prisma {
     travelInterests?: StringNullableListFilter<"User">
     visitedCountries?: StringNullableListFilter<"User">
     currentLocation?: StringNullableFilter<"User"> | string | null
+    userStatus?: EnumStatusFilter<"User"> | $Enums.Status
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
     subscriptionActive?: BoolFilter<"User"> | boolean
@@ -7955,6 +7985,7 @@ export namespace Prisma {
     travelInterests?: SortOrder
     visitedCountries?: SortOrder
     currentLocation?: SortOrderInput | SortOrder
+    userStatus?: SortOrder
     role?: SortOrder
     verified?: SortOrder
     subscriptionActive?: SortOrder
@@ -7981,6 +8012,7 @@ export namespace Prisma {
     travelInterests?: StringNullableListFilter<"User">
     visitedCountries?: StringNullableListFilter<"User">
     currentLocation?: StringNullableFilter<"User"> | string | null
+    userStatus?: EnumStatusFilter<"User"> | $Enums.Status
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
     subscriptionActive?: BoolFilter<"User"> | boolean
@@ -8004,6 +8036,7 @@ export namespace Prisma {
     travelInterests?: SortOrder
     visitedCountries?: SortOrder
     currentLocation?: SortOrderInput | SortOrder
+    userStatus?: SortOrder
     role?: SortOrder
     verified?: SortOrder
     subscriptionActive?: SortOrder
@@ -8028,6 +8061,7 @@ export namespace Prisma {
     travelInterests?: StringNullableListFilter<"User">
     visitedCountries?: StringNullableListFilter<"User">
     currentLocation?: StringNullableWithAggregatesFilter<"User"> | string | null
+    userStatus?: EnumStatusWithAggregatesFilter<"User"> | $Enums.Status
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     verified?: BoolWithAggregatesFilter<"User"> | boolean
     subscriptionActive?: BoolWithAggregatesFilter<"User"> | boolean
@@ -8381,6 +8415,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -8404,6 +8439,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -8427,6 +8463,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -8450,6 +8487,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -8473,6 +8511,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -8491,6 +8530,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -8509,6 +8549,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -8949,6 +8990,13 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type EnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -8992,6 +9040,7 @@ export namespace Prisma {
     travelInterests?: SortOrder
     visitedCountries?: SortOrder
     currentLocation?: SortOrder
+    userStatus?: SortOrder
     role?: SortOrder
     verified?: SortOrder
     subscriptionActive?: SortOrder
@@ -9008,6 +9057,7 @@ export namespace Prisma {
     profileImage?: SortOrder
     bio?: SortOrder
     currentLocation?: SortOrder
+    userStatus?: SortOrder
     role?: SortOrder
     verified?: SortOrder
     subscriptionActive?: SortOrder
@@ -9024,12 +9074,23 @@ export namespace Prisma {
     profileImage?: SortOrder
     bio?: SortOrder
     currentLocation?: SortOrder
+    userStatus?: SortOrder
     role?: SortOrder
     verified?: SortOrder
     subscriptionActive?: SortOrder
     subscriptionExpiresAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -9390,6 +9451,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumStatusFieldUpdateOperationsInput = {
+    set?: $Enums.Status
+  }
+
   export type EnumRoleFieldUpdateOperationsInput = {
     set?: $Enums.Role
   }
@@ -9744,6 +9809,13 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type NestedEnumStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  }
+
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -9760,6 +9832,16 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumStatusFilter<$PrismaModel>
+    _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -9796,6 +9878,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -9818,6 +9901,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -9881,6 +9965,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -9903,6 +9988,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -9956,6 +10042,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -9978,6 +10065,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10053,6 +10141,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10075,6 +10164,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10172,6 +10262,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10194,6 +10285,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10263,6 +10355,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10285,6 +10378,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10307,6 +10401,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10329,6 +10424,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10356,6 +10452,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10378,6 +10475,7 @@ export namespace Prisma {
     travelInterests?: UserCreatetravelInterestsInput | string[]
     visitedCountries?: UserCreatevisitedCountriesInput | string[]
     currentLocation?: string | null
+    userStatus?: $Enums.Status
     role?: $Enums.Role
     verified?: boolean
     subscriptionActive?: boolean
@@ -10444,6 +10542,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10466,6 +10565,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10507,6 +10607,7 @@ export namespace Prisma {
     travelInterests?: StringNullableListFilter<"User">
     visitedCountries?: StringNullableListFilter<"User">
     currentLocation?: StringNullableFilter<"User"> | string | null
+    userStatus?: EnumStatusFilter<"User"> | $Enums.Status
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
     subscriptionActive?: BoolFilter<"User"> | boolean
@@ -10884,6 +10985,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10906,6 +11008,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean
@@ -10928,6 +11031,7 @@ export namespace Prisma {
     travelInterests?: UserUpdatetravelInterestsInput | string[]
     visitedCountries?: UserUpdatevisitedCountriesInput | string[]
     currentLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    userStatus?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     subscriptionActive?: BoolFieldUpdateOperationsInput | boolean

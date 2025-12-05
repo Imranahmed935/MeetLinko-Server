@@ -3,11 +3,12 @@ enum Role {
   ADMIN
 }
 
-enum UserStatus {
+enum Status {
   ACTIVE      
   INACTIVE    
   BANNED      
-  PENDING    
+  PENDING
+  DELETED 
 }
 
 

@@ -3,11 +3,12 @@ enum Role {
   ADMIN
 }
 
-enum UserStatus {
+enum Status {
   ACTIVE
   INACTIVE
   BANNED
   PENDING
+  DELETED
 }
 
 enum TravelType {
@@ -39,7 +40,7 @@ model Payment {
   subscriptionId  String
   subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
   status          PaymentStatus @default(UNPAID)
-  provider        String
+  provider        String?
   paymentIntentId String?
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -115,6 +116,7 @@ model User {
   travelInterests       String[]
   visitedCountries      String[]
   currentLocation       String?
+  userStatus            Status        @default(ACTIVE)
   role                  Role          @default(USER)
   verified              Boolean       @default(false)
   subscription          Subscription? @relation("SubscriptionToUser")

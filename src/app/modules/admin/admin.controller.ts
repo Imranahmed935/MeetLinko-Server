@@ -14,6 +14,44 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
   })
 });
 
+
+const getUserById = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await adminService.getUserById(id as string);
+  sendResponse(res,{
+    statusCode:200,
+    success:true,
+    message:"single user retrived Successfully!!",
+    data:result
+  })
+});
+
+
+const deleteUserById = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await adminService.deleteUserById(id as string);
+  sendResponse(res,{
+    statusCode:200,
+    success:true,
+    message:"user deleted Successfully!!",
+    data:result
+  })
+});
+
+
+const softDelete = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const {status} = req.body
+  const result = await adminService.softDelete(id as string, status);
+  sendResponse(res,{
+    statusCode:200,
+    success:true,
+    message:"user deleted Successfully!!",
+    data:result
+  })
+});
+
+
 const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
   const result = await adminService.getAllTravelPlan();
   sendResponse(res,{
@@ -23,6 +61,30 @@ const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
     data:result
   })
 });
+
+
+const getPlanById = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await adminService.getPlanById(id as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Plan retrieved successfully!",
+    data: result
+  });
+});
+
+const deletePlanById = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await adminService.deletePlanById(id as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Plan deleted successfully!",
+    data: result
+  });
+});
+
 
 const getAllReview = catchAsync(async (req: Request, res: Response) => {
   const result = await adminService.getAllReview();
@@ -35,8 +97,15 @@ const getAllReview = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+
 export const adminController ={
     getAllUser,
     getAllTravelPlan,
-    getAllReview
+    getAllReview,
+    getUserById,
+    deleteUserById,
+    softDelete,
+    getPlanById,
+    deletePlanById
+    
 }
