@@ -26,7 +26,7 @@ export const seedSuperAdmin = async () => {
       email: config.admin.super_admin_email as string,
       role: Role.ADMIN,
       password: hashedPassword,
-      verified: true,
+      verified: true,   
     };
 
     const superAdmin = await prisma.user.create({
