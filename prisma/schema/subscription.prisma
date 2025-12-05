@@ -3,6 +3,7 @@ model Subscription {
   type      SubscriptionType
   startDate DateTime @default(now())
   endDate   DateTime
+  payment   Payment[]
   user      User     @relation("SubscriptionToUser", fields: [userId], references: [id])
   userId    String   @unique
   createdAt DateTime @default(now())

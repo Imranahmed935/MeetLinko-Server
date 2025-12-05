@@ -19,4 +19,9 @@ export default {
         refresh_token_expires_in: process.env.REFRESH_TOKEN_EXPIRES_IN, 
     },
     stripeSecretKey:process.env.STRIPE_SECRET_KEY,
+
+    admin:{
+        super_admin_email:process.env.SUPER_ADMIN_EMAIL,
+        super_admin_pass:process.env.SUPER_ADMIN_PASS
+    }
 }

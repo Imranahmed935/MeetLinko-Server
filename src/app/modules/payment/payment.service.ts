@@ -2,6 +2,8 @@
 import { Request, Response } from "express";
 import { stripe } from "../../helper/stripe";
 import { prisma } from "../../shared/prisma";
+import { PaymentStatus } from "../../../generated";
+
 
 const createCheckoutSession = async (payload: any) => {
   const { userId, planType } = payload;
@@ -15,24 +17,54 @@ const createCheckoutSession = async (payload: any) => {
 
   if (!priceId) throw new Error("Invalid subscription plan");
 
+  const startDate = new Date();
+  const endDate = calculateExpiry(planType);
+
+  
+  const subscription = await prisma.subscription.upsert({
+    where: { userId },
+    update: {
+      type: planType,
+      startDate,
+      endDate,
+      updatedAt: new Date(),
+    },
+    create: {
+      userId,
+      type: planType,
+      startDate,
+      endDate,
+    },
+  });
+
+  
+  const amount = planType === "WEEKLY" ? 10 : planType === "MONTHLY" ? 50 : 100; 
+  const payment = await prisma.payment.create({
+    data: {
+      amount,
+      status: PaymentStatus.UNPAID,
+      subscriptionId: subscription.id,
+      userId,
+    },
+  });
+
+  
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     payment_method_types: ["card"],
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: "https://github.com/Imranahmed935/payment/success",
+    success_url: "http://localhost:3000/payment/success",
     cancel_url: "http://localhost:3000/payment/cancel",
     metadata: {
+      paymentId: payment.id,
       userId,
-      planType,
     },
   });
 
   return { url: session.url };
 };
 
-
-
-export const handleWebhook = async (req:Request, res: Response) => {
+export const handleWebhook = async (req: Request, res: Response) => {
   const signature = req.headers["stripe-signature"] as string;
 
   let event;
@@ -41,7 +73,7 @@ export const handleWebhook = async (req:Request, res: Response) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       signature,
-      process.env.WEBHOOK_SECRET as string
+      "whsec_63b8794070ddfc1a004670a69f45296f4dce3ce825ae2156311cb4197b755a46"
     );
   } catch (error: any) {
     return res.status(400).send(`Webhook error: ${error.message}`);
@@ -51,42 +83,27 @@ export const handleWebhook = async (req:Request, res: Response) => {
     const session = event.data.object as any;
 
     const userId = session.metadata?.userId;
-    const planType = session.metadata?.planType;
+    const paymentId = session.metadata?.paymentId;
 
-    if (!userId || !planType) {
-      return res.status(400).json({ error: "Missing userId or planType in metadata" });
+    if (!userId || !paymentId) {
+      return res.status(400).json({ error: "Missing userId or paymentId in metadata" });
     }
 
-    const startDate = new Date();
-    const endDate = calculateExpiry(planType);
-
     try {
-      // Upsert subscription: create if not exists, update if exists
-      await prisma.subscription.upsert({
-        where: { userId },
-        update: {
-          type: planType,
-          startDate,
-          endDate,
-          updatedAt: new Date(),
-        },
-        create: {
-          userId,
-          type: planType,
-          startDate,
-          endDate,
+      await prisma.payment.update({
+        where: { id: paymentId },
+        data: {
+          status: session.payment_status === "paid" ? PaymentStatus.PAID : PaymentStatus.UNPAID,
         },
       });
 
-      
-      // await prisma.user.update({
-      //   where: { id: userId },
-      //   // data: { subscriptionActive: true },
-      // });
-
+      await prisma.user.update({
+        where: { id: userId },
+        data: {verified: true},
+      });
     } catch (err) {
       console.error("Prisma update error:", err);
-      return res.status(500).json({ error: "Failed to update subscription" });
+      return res.status(500).json({ error: "Failed to update payment/user" });
     }
 
     return res.json({ received: true });
@@ -95,16 +112,13 @@ export const handleWebhook = async (req:Request, res: Response) => {
   return res.json({ received: true });
 };
 
+
 function calculateExpiry(planType: string) {
   const date = new Date();
 
-  if (planType === "WEEKLY") {
-    date.setDate(date.getDate() + 7);
-  } else if (planType === "MONTHLY") {
-    date.setMonth(date.getMonth() + 1);
-  } else if (planType === "YEARLY") {
-    date.setFullYear(date.getFullYear() + 1);
-  }
+  if (planType === "WEEKLY") date.setDate(date.getDate() + 7);
+  else if (planType === "MONTHLY") date.setMonth(date.getMonth() + 1);
+  else if (planType === "YEARLY") date.setFullYear(date.getFullYear() + 1);
 
   return date;
 }
@@ -113,3 +127,4 @@ export const paymentService = {
   createCheckoutSession,
   handleWebhook,
 };
+

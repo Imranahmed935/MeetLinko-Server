@@ -25,6 +25,7 @@ enum TravelType {
 enum SubscriptionType {
   MONTHLY
   YEARLY
+  WEEKLY
 }
 
 enum PaymentStatus {

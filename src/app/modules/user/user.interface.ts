@@ -4,8 +4,8 @@ export type createUserInput = {
     password:string
 }
 
-import { Payment, Review, Subscription, TravelPlan } from "../../../generated";
-import { Role } from "../../../generated/enums";
+import { Payment, Review, Role, Subscription, TravelPlan } from "../../../generated";
+
 
 export type User = {
   id: string;

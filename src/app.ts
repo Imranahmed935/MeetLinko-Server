@@ -4,9 +4,16 @@ import cookieParser from "cookie-parser";
 import globalErrorHandler from "./app/middleware/globalErrorHandler";
 import notFound from "./app/middleware/notFound";
 import router from "./app/routes";
+import { paymentController } from "./app/modules/payment/payment.controller";
 
 const app: Application = express();
 
+
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  paymentController.handleWebhook
+);
 
 app.use(cors());
 app.use(cookieParser());

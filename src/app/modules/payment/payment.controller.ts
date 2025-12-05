@@ -15,7 +15,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
 
 const handleWebhook = async (req: Request, res: Response) => {
   const result = await paymentService.handleWebhook(req, res);
-  return result; // Stripe requires direct return
+  return result; 
 };
 
 export const paymentController = {

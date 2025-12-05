@@ -125,6 +125,7 @@ exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   amount: 'amount',
+  subscriptionId: 'subscriptionId',
   status: 'status',
   provider: 'provider',
   paymentIntentId: 'paymentIntentId',
@@ -206,7 +207,8 @@ exports.PaymentStatus = exports.$Enums.PaymentStatus = {
 
 exports.SubscriptionType = exports.$Enums.SubscriptionType = {
   MONTHLY: 'MONTHLY',
-  YEARLY: 'YEARLY'
+  YEARLY: 'YEARLY',
+  WEEKLY: 'WEEKLY'
 };
 
 exports.TravelType = exports.$Enums.TravelType = {

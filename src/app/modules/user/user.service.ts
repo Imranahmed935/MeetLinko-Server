@@ -2,10 +2,11 @@ import { Request } from "express";
 import bcrypt from "bcryptjs";
 import { prisma } from "../../shared/prisma";
 import { fileUploader } from "../../helper/imageUpload";
-import { UserUpdateInput } from "../../../generated/models";
+
 
 const createUser = async (req: Request) => {
   let profileImageUrl: string | undefined;
+  
 
   if (req.file) {
     const uploadResult = await fileUploader.uploadCloudinary(req.file);
@@ -25,7 +26,7 @@ const createUser = async (req: Request) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const result = await prisma.$transaction(async (tnx) => {
+  const result = await prisma.$transaction(async (tnx :any) => {
     return await tnx.user.create({
       data: {
         fullName,
@@ -58,7 +59,7 @@ const getAllUser = async () => {
   return result;
 };
 
-const updateUser = async (payload:Partial<UserUpdateInput>, id: any) => {
+const updateUser = async (payload:any, id: any) => {
   const {password, ...payloadInfo} = payload;
   const result = await prisma.user.update({
     where: {

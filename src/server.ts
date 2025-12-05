@@ -1,6 +1,7 @@
 import { Server } from "http";
 import app from "./app";
 import config from "./config";
+import { seedSuperAdmin } from "./app/utils/seedAdmin";
 
 
 async function startServer() {
@@ -40,4 +41,8 @@ async function startServer() {
   }
 }
 
-startServer();
+;
+(async () => {
+  await startServer();
+  await seedSuperAdmin();
+})();
