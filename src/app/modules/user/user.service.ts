@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../../shared/prisma";
 import { fileUploader } from "../../helper/imageUpload";
 
-
 const createUser = async (req: Request) => {
   let profileImageUrl: string | undefined;
   
@@ -54,10 +53,7 @@ const userGetById = async (id: any) => {
 
   return result;
 };
-const getAllUser = async () => {
-  const result = await prisma.user.findMany()
-  return result;
-};
+
 
 const updateUser = async (payload:any, id: any) => {
   const {password, ...payloadInfo} = payload;
@@ -75,5 +71,4 @@ export const userService = {
   createUser,
   userGetById,
   updateUser,
-  getAllUser
 };
