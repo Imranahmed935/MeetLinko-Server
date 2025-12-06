@@ -1,4 +1,5 @@
-import { Role } from "../../generated";
+import { Role } from "@prisma/client";
+
 
 
 export type IJWTPayload = {

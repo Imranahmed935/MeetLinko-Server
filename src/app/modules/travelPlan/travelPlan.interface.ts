@@ -1,4 +1,6 @@
-import { TravelType } from "../../../generated";
+// import { TravelType } from "../../../generated";
+
+import { TravelType } from "@prisma/client";
 
 
 export type IPlanFilterRequest = {

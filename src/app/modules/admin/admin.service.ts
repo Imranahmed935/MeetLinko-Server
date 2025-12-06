@@ -1,4 +1,5 @@
-import { Status } from "../../../generated";
+
+import { Status } from "@prisma/client";
 import { prisma } from "../../shared/prisma"
 
 

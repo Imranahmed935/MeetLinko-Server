@@ -37,7 +37,6 @@ model Payment {
   userId            String
   user              User          @relation(fields: [userId], references: [id])
   amount            Float
-  transactionId     String?       @unique
   paymentGetWayData Json?
   subscriptionId    String
   subscription      Subscription  @relation(fields: [subscriptionId], references: [id])

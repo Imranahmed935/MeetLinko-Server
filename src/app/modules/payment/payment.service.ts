@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { stripe } from "../../helper/stripe";
 import { prisma } from "../../shared/prisma";
-import { PaymentStatus } from "../../../generated";
+import { PaymentStatus } from "@prisma/client";
+
 
 const createCheckoutSession = async (payload: any) => {
   const { userId, planType } = payload;
@@ -56,7 +57,6 @@ const createCheckoutSession = async (payload: any) => {
     },
   });
 
-  console.log(session);
 
   return { url: session.url };
 };
