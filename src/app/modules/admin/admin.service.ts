@@ -1,6 +1,10 @@
 
-import { Status } from "@prisma/client";
-import { prisma } from "../../shared/prisma"
+
+// import { Status } from "../../../generated";
+// import { prisma } from "../../shared/prisma"
+
+import { Status } from "../../../generated/prisma/enums";
+import { prisma } from "../../shared/prisma";
 
 
 

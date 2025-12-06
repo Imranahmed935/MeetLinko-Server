@@ -1,4 +1,6 @@
-import { Payment, Review, Role, Subscription, TravelPlan } from "@prisma/client";
+
+import { Payment, Review, Role, Subscription, TravelPlan } from "../../../generated/prisma/client";
+
 
 export type createUserInput = {
     name:string,
@@ -6,7 +8,7 @@ export type createUserInput = {
     password:string
 }
 
-// import { Payment, Review, Role, Subscription, TravelPlan } from "../../../generated";
+
 
 
 export type User = {

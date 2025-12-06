@@ -1,6 +1,5 @@
-// import { TravelType } from "../../../generated";
+import { TravelType } from "../../../generated/prisma/enums";
 
-import { TravelType } from "@prisma/client";
 
 
 export type IPlanFilterRequest = {

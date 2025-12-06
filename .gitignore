@@ -18,3 +18,7 @@ uploads/*
 
 
 
+
+/src/generated/prisma
+
+/generated/prisma
