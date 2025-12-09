@@ -43,7 +43,13 @@ const getTravelPlanById = async (id: string) => {
 };
 
 const getAllTravelPlan = async () => {
-  const result = await prisma.travelPlan.findMany();
+  const result = await prisma.travelPlan.findMany({
+    include:{
+      host:true,
+      reviews:true,
+      participants:true
+    }
+  });
   return result;
 };
 

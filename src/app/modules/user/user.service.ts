@@ -49,8 +49,16 @@ const userGetById = async (id: any) => {
     where: {
       id: id,
     },
+    include:{
+      reviews:true
+    }
   });
 
+  return result;
+};
+
+const getAllUsers = async () => {
+  const result = await prisma.user.findMany()
   return result;
 };
 
@@ -71,4 +79,5 @@ export const userService = {
   createUser,
   userGetById,
   updateUser,
+  getAllUsers
 };

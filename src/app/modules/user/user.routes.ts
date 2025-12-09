@@ -14,6 +14,7 @@ router.post(
   }
 );
 
+router.get("/", userController.getAllUsers)
 router.get("/:id", userController.userGetById)
 router.patch("/:id", userController.updateUser)
 
