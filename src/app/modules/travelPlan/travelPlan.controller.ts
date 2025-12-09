@@ -2,10 +2,15 @@ import { Request, Response } from "express";
 import sendResponse from "../../shared/sendResponse";
 import catchAsync from "../../shared/catchAsync";
 import { travelPlanService } from "./travelPlan.service";
+import { IJWTPayload } from "../../type/common";
 
 
-const createPlan = catchAsync(async (req: Request, res: Response) => {
-  const result = await travelPlanService.createPlan(req.body);
+
+const createPlan = catchAsync(async (req: Request & { user?: IJWTPayload }, res: Response) => {
+ const hostId = req.user?.id
+ console.log(hostId)
+  const result = await travelPlanService.createPlan(req.body, hostId as string);
+
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -13,6 +18,19 @@ const createPlan = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const getMyTravelPlan = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await travelPlanService.getMyTravelPlan(id as string);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "My Travel Plan retrived Successfully!",
+    data: result,
+  });
+});
+
+
 
 
 const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
@@ -66,5 +84,6 @@ export const travelPlanController = {
   getAllTravelPlan,
   updatePlan,
   deletePlan,
-  getTravelPlanById
+  getTravelPlanById,
+  getMyTravelPlan
 };

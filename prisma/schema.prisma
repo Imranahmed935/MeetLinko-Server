@@ -126,6 +126,7 @@ model User {
   travelInterests  String[]        
   visitedCountries String[]       
   currentLocation  String?
+  contactNumber    String?
   userStatus       Status        @default(ACTIVE)
   role             Role          @default(USER)
   verified         Boolean       @default(false)

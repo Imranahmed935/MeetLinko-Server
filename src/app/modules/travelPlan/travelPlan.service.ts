@@ -1,9 +1,27 @@
-
 import { prisma } from "../../shared/prisma";
+import { ICreatePlanInput } from "./travelPlan.interface";
 
-const createPlan = async (payload: any) => {
+
+export const createPlan = async (payload: ICreatePlanInput, id:string) => {
+  const startDate = new Date(payload.startDate);
+  const endDate = new Date(payload.endDate);
+
+  if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+    throw new Error("Invalid startDate or endDate");
+  }
+
   const result = await prisma.travelPlan.create({
-    data: payload,
+    data: {
+      title: payload.title,
+      destination: payload.destination,
+      startDate, 
+      endDate,   
+      budget: payload.budget,
+      travelType: payload.travelType,
+      description: payload.description || null,
+      visibility: payload.visibility,
+      hostId:id
+    },
   });
 
   return result;
@@ -15,29 +33,44 @@ const getTravelPlanById = async (id: string) => {
     where: {
       id: id,
     },
-    include:{
-      host:true,
-      participants:true,
-      reviews:true
-    }
+    include: {
+      host: true,
+      participants: true,
+      reviews: true,
+    },
   });
   return result;
 };
-
 
 const getAllTravelPlan = async () => {
   const result = await prisma.travelPlan.findMany();
   return result;
 };
 
+const getMyTravelPlan = async (id: string) => {
+  const result = await prisma.travelPlan.findMany({
+    where: { 
+      hostId:id
+    }
+  });
+  return result;
+};
 
 const updatePlan = async (payload: any, id: string) => {
   const result = await prisma.travelPlan.update({
-    where: {
-      id: id,
+    where: { id },
+    data: {
+      title: payload.title,
+      destination: payload.destination,
+      startDate: new Date(payload.startDate), 
+      endDate: new Date(payload.endDate),  
+      budget: payload.budget,
+      travelType: payload.travelType,
+      description: payload.description,
+      visibility: payload.visibility,
     },
-    data: payload,
   });
+
   return result;
 };
 
@@ -56,4 +89,5 @@ export const travelPlanService = {
   updatePlan,
   deletePlan,
   getTravelPlanById,
+  getMyTravelPlan,
 };

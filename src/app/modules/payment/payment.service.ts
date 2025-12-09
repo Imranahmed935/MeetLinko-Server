@@ -4,8 +4,6 @@ import { prisma } from "../../shared/prisma";
 import { PaymentStatus } from "../../../generated/prisma/enums";
 
 
-
-
 const createCheckoutSession = async (payload: any) => {
   const { userId, planType } = payload;
 

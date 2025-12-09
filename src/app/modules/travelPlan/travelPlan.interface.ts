@@ -9,3 +9,22 @@ export type IPlanFilterRequest = {
     endDate?: string | undefined;
     searchTerm?: string | undefined;
 }
+
+export interface ICreatePlanInput {
+  title: string;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  travelType:
+    | "ADVENTURE"
+    | "BUSINESS"
+    | "FAMILY"
+    | "SOLO"
+    | "FRIENDS"
+    | "HONEYMOON"
+    | "COUPLE";
+  description?: string;
+  visibility: boolean;
+  hostId: string;
+}

@@ -15,7 +15,10 @@ const getAllUser = async () => {
 
 const getUserById = async (id:string) => {
   const result = await prisma.user.findUnique({
-    where:{id}
+    where:{id},
+    include:{
+      reviews:true
+    }
   })
   return result;
 };
