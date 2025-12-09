@@ -1,15 +1,11 @@
-
-
 generator client {
   provider = "prisma-client"
-  output   = "generated/prisma"
+  output   = "../src/generated"
 }
 
 datasource db {
   provider = "postgresql"
 }
-
-
 
 enum Role {
   USER
@@ -17,13 +13,12 @@ enum Role {
 }
 
 enum Status {
-  ACTIVE      
-  INACTIVE    
-  BANNED      
+  ACTIVE
+  INACTIVE
+  BANNED
   PENDING
-  DELETED 
+  DELETED
 }
-
 
 enum TravelType {
   ADVENTURE
@@ -34,7 +29,6 @@ enum TravelType {
   HONEYMOON
   COUPLE
 }
-
 
 enum SubscriptionType {
   MONTHLY
@@ -47,56 +41,53 @@ enum PaymentStatus {
   UNPAID
 }
 
-
 model Payment {
-  id              String        @id @default(uuid())
-  userId          String
-  user            User          @relation(fields: [userId], references: [id])
-  amount          Float
+  id                String        @id @default(uuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id])
+  amount            Float
   paymentGetWayData Json?
-  subscriptionId  String
-  subscription    Subscription  @relation(fields: [subscriptionId], references: [id])
-  status          PaymentStatus @default(UNPAID)
-  provider        String?
-  paymentIntentId String?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  subscriptionId    String
+  subscription      Subscription  @relation(fields: [subscriptionId], references: [id])
+  status            PaymentStatus @default(UNPAID)
+  provider          String?
+  paymentIntentId   String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 
   @@map("payments")
 }
 
-
 model Review {
-  id           String      @id @default(uuid())
-  rating       Int         @default(5)
+  id           String     @id @default(uuid())
+  rating       Int        @default(5)
   comment      String
   reviewer     User       @relation(fields: [reviewerId], references: [id])
   reviewerId   String
-  travelPlan   TravelPlan  @relation(fields: [travelPlanId], references: [id])
+  travelPlan   TravelPlan @relation(fields: [travelPlanId], references: [id])
   travelPlanId String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@map("reviews")
 }
 
-
 model Subscription {
-  id        String   @id @default(uuid())
+  id        String           @id @default(uuid())
   type      SubscriptionType
-  startDate DateTime @default(now())
+  startDate DateTime         @default(now())
   endDate   DateTime
   payment   Payment[]
-  user      User     @relation("SubscriptionToUser", fields: [userId], references: [id])
-  userId    String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user      User             @relation("SubscriptionToUser", fields: [userId], references: [id])
+  userId    String           @unique
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
   @@map("subscriptions")
 }
 
 model TravelPlan {
-  id           String      @id @default(uuid())
+  id           String     @id @default(uuid())
   title        String
   destination  String
   startDate    DateTime
@@ -104,41 +95,40 @@ model TravelPlan {
   budget       Float
   travelType   TravelType
   description  String?
-  visibility   Boolean     @default(true)
+  visibility   Boolean    @default(true)
   hostId       String
-  host         User        @relation(fields: [hostId], references: [id])
-  participants User[]      @relation("PlanParticipants")
+  host         User       @relation(fields: [hostId], references: [id])
+  participants User[]     @relation("PlanParticipants")
   reviews      Review[]
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@map("travelPlans")
 }
 
-
 model User {
-  id               String        @id @default(uuid())
-  fullName         String
-  email            String        @unique
-  password         String
-  profileImage     String?         
-  bio              String?
-  travelInterests  String[]        
-  visitedCountries String[]       
-  currentLocation  String?
-  contactNumber    String?
-  userStatus       Status        @default(ACTIVE)
-  role             Role          @default(USER)
-  verified         Boolean       @default(false)
-  subscription     Subscription? @relation("SubscriptionToUser") 
-  travelPlans      TravelPlan[]   
-  subscriptionActive   Boolean    @default(false) 
-  subscriptionExpiresAt   DateTime?
-  joinedPlans      TravelPlan[]   @relation("PlanParticipants")
-  reviews          Review[]        
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
-  payments Payment[]
+  id                    String        @id @default(uuid())
+  fullName              String
+  email                 String        @unique
+  password              String
+  profileImage          String?
+  bio                   String?
+  travelInterests       String[]
+  visitedCountries      String[]
+  currentLocation       String?
+  contactNumber         String?
+  userStatus            Status        @default(ACTIVE)
+  role                  Role          @default(USER)
+  verified              Boolean       @default(false)
+  subscription          Subscription? @relation("SubscriptionToUser")
+  travelPlans           TravelPlan[]
+  subscriptionActive    Boolean       @default(false)
+  subscriptionExpiresAt DateTime?
+  joinedPlans           TravelPlan[]  @relation("PlanParticipants")
+  reviews               Review[]
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  payments              Payment[]
 
   @@map("users")
 }

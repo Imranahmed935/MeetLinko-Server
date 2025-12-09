@@ -1,44 +1,39 @@
-
-
 // import { Status } from "../../../generated";
 // import { prisma } from "../../shared/prisma"
 
-import { Status } from "../../../generated/prisma/enums";
+import { Status } from "../../../generated/enums";
 import { prisma } from "../../shared/prisma";
 
-
-
 const getAllUser = async () => {
-  const result = await prisma.user.findMany()
+  const result = await prisma.user.findMany();
   return result;
 };
 
-const getUserById = async (id:string) => {
+const getUserById = async (id: string) => {
   const result = await prisma.user.findUnique({
-    where:{id},
-    include:{
-      reviews:true
-    }
-  })
+    where: { id },
+    include: {
+      reviews: true,
+    },
+  });
   return result;
 };
 
 const deleteUserById = async (id: string) => {
-
   await prisma.payment.deleteMany({
-    where: { userId: id }
+    where: { userId: id },
   });
 
   await prisma.subscription.deleteMany({
-    where:{userId:id}
-  })
+    where: { userId: id },
+  });
 
   await prisma.review.deleteMany({
-    where:{reviewerId:id}
-  })
+    where: { reviewerId: id },
+  });
 
   const result = await prisma.user.delete({
-    where: { id }
+    where: { id },
   });
 
   return result;
@@ -48,49 +43,48 @@ const softDelete = async (id: string, status: Status) => {
   const result = await prisma.user.update({
     where: { id },
     data: {
-      userStatus: status 
-    }
+      userStatus: status,
+    },
   });
 
   return result;
 };
 
 const getAllTravelPlan = async () => {
-  const result = await prisma.travelPlan.findMany()
+  const result = await prisma.travelPlan.findMany();
   return result;
 };
 
 const getPlanById = async (id: string) => {
   return prisma.travelPlan.findUnique({
-    where: { id }
+    where: { id },
   });
 };
 
 const deletePlanById = async (id: string) => {
-
   await prisma.review.deleteMany({
-    where:{
-      travelPlanId:id
-    }
-  })
+    where: {
+      travelPlanId: id,
+    },
+  });
 
   return prisma.travelPlan.delete({
-    where: { id }
+    where: { id },
   });
 };
 
 const getAllReview = async () => {
-  const result = await prisma.review.findMany()
+  const result = await prisma.review.findMany();
   return result;
 };
 
-export const adminService ={
-    getAllUser,
-    getAllTravelPlan,
-    getAllReview,
-    getUserById,
-    deleteUserById,
-    softDelete,
-    deletePlanById,
-    getPlanById
-}
+export const adminService = {
+  getAllUser,
+  getAllTravelPlan,
+  getAllReview,
+  getUserById,
+  deleteUserById,
+  softDelete,
+  deletePlanById,
+  getPlanById,
+};

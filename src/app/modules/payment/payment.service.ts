@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
 import { stripe } from "../../helper/stripe";
 import { prisma } from "../../shared/prisma";
-import { PaymentStatus } from "../../../generated/prisma/enums";
-
+import { PaymentStatus } from "../../../generated/enums";
 
 const createCheckoutSession = async (payload: any) => {
   const { userId, planType } = payload;
@@ -57,7 +56,6 @@ const createCheckoutSession = async (payload: any) => {
     },
   });
 
-
   return { url: session.url };
 };
 
@@ -78,7 +76,7 @@ export const handleWebhook = async (req: Request, res: Response) => {
 
   if (event.type === "checkout.session.completed") {
     const invoice = event.data.object as any;
-    
+
     const userId = invoice.metadata?.userId;
     const paymentId = invoice.metadata?.paymentId;
 

@@ -1,8 +1,7 @@
-import { Role } from "../../generated/prisma/enums";
-
+import { Role } from "../../generated/enums";
 
 export type IJWTPayload = {
-    id:string;
-    email: string;
-    role: Role;
-}
+  id: string;
+  email: string;
+  role: Role;
+};

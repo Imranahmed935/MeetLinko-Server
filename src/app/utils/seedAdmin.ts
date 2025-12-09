@@ -1,8 +1,7 @@
 import bcryptjs from "bcryptjs";
 import config from "../../config";
 import { prisma } from "../shared/prisma";
-import { Role } from "../../generated/prisma/enums";
-
+import { Role } from "../../generated/enums";
 
 export const seedSuperAdmin = async () => {
   try {
@@ -27,11 +26,11 @@ export const seedSuperAdmin = async () => {
       email: config.admin.super_admin_email as string,
       role: Role.ADMIN,
       password: hashedPassword,
-      verified: true,   
+      verified: true,
     };
 
     const superAdmin = await prisma.user.create({
-      data:payload
+      data: payload,
     });
     console.log("Super Admin created Successfully!");
     console.log(superAdmin);
