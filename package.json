@@ -6,7 +6,7 @@
     "lint": "npx eslint ./src",
     "dev": "npx tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node ./dist/server.js",
+    "start": "npx tsx watch src/server.ts",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate",
     "db:push": "prisma db push",
