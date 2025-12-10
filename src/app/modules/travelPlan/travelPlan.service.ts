@@ -36,7 +36,16 @@ const getTravelPlanById = async (id: string) => {
     include: {
       host: true,
       participants: true,
-      reviews: true,
+      reviews:{
+        select:{
+          comment:true,
+          rating:true,
+          createdAt:true,
+          reviewer:true
+        }
+      },
+      
+       
     },
   });
   return result;

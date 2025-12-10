@@ -56,6 +56,8 @@ const createCheckoutSession = async (payload: any) => {
     },
   });
 
+  console.log(session)
+
   return { url: session.url };
 };
 
@@ -74,9 +76,11 @@ export const handleWebhook = async (req: Request, res: Response) => {
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
+  console.log(event)
+
   if (event.type === "checkout.session.completed") {
     const invoice = event.data.object as any;
-
+console.log(invoice)
     const userId = invoice.metadata?.userId;
     const paymentId = invoice.metadata?.paymentId;
 

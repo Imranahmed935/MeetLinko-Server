@@ -50,7 +50,11 @@ const userGetById = async (id: any) => {
       id: id,
     },
     include:{
-      reviews:true
+      reviews:{
+        select:{
+          rating:true
+        }
+      }
     }
   });
 
