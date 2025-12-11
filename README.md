@@ -1,6 +1,3 @@
-Here is a **complete, professional, production-ready `README.md` for your MeetlinkO Backend** — clean, structured, and perfect for GitHub.
-
----
 
 # **MeetlinkO Backend — API for Travel Matching Platform**
 

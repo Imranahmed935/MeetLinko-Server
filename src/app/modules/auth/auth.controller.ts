@@ -3,6 +3,8 @@ import catchAsync from "../../shared/catchAsync";
 import { authService } from "./auth.service";
 import sendResponse from "../../shared/sendResponse";
 import httpStatus from "http-status"
+import { IJWTPayload } from "../../type/common";
+
 
 const login = catchAsync(async (req: Request, res: Response) => {
     const result = await authService.login(req.body);
@@ -55,7 +57,6 @@ const logOut = catchAsync(async (req: Request, res: Response) => {
 
 const getMe = catchAsync(async (req: Request, res: Response) => {
     const userSession = req.cookies;
-    console.log(userSession)
     const result = await authService.getMe(userSession);
 
     sendResponse(res, {
@@ -66,8 +67,24 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+
+export const changePassword = catchAsync(async (req: Request & { user?: IJWTPayload }, res: Response) => {
+  const userId = req.user?.id; 
+  const { oldPassword, newPassword } = req.body;
+
+  const result = await authService.changePassword(userId as string, { oldPassword, newPassword });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Password changed successfully!",
+    data: result,
+  });
+});
+
 export const authController = {
     login,
     logOut,
-    getMe
+    getMe,
+    changePassword
 }

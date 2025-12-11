@@ -14,7 +14,8 @@ const createReview = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllReview = catchAsync(async (req: Request, res: Response) => {
-  const result = await reviewsService.getAllReview();
+  const {id} = req.params;
+  const result = await reviewsService.getAllReview(id as string);
   sendResponse(res, {
     statusCode: 201,
     success: true,

@@ -3,7 +3,7 @@ import { reviewController } from "./review.controller";
 
 const router = express.Router();
 
-router.get("/", reviewController.getAllReview);
+router.get("/:id", reviewController.getAllReview);
 router.get("/:id", reviewController.getReviewById);
 router.post("/create", reviewController.createReview);
 router.patch("/:id", reviewController.updateReview);

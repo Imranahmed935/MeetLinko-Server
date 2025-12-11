@@ -10,8 +10,13 @@ const createReview = async (payload: any) => {
 };
 
 
-const getAllReview = async () => {
-  const result = await prisma.review.findMany()
+const getAllReview = async (id:string) => {
+  const result = await prisma.review.findMany({
+    where:{reviewerId:id},
+    include:{
+      reviewer:true
+    }
+  })
   return result;
 };
 
@@ -20,6 +25,9 @@ const getReviewById = async (id:string) => {
   const result = await prisma.review.findUnique({
     where:{
         id:id
+    },
+    include:{
+      reviewer:true
     }
   })
   return result;

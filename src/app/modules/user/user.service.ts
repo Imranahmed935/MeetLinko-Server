@@ -5,8 +5,6 @@ import { fileUploader } from "../../helper/imageUpload";
 
 const createUser = async (req: Request) => {
   let profileImageUrl: string | undefined;
-  
-
   if (req.file) {
     const uploadResult = await fileUploader.uploadCloudinary(req.file);
     profileImageUrl = uploadResult?.secure_url;
@@ -16,7 +14,6 @@ const createUser = async (req: Request) => {
     fullName,
     email,
     password,
-    bio,
     travelInterests,
     visitedCountries,
     currentLocation,
@@ -25,14 +22,12 @@ const createUser = async (req: Request) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
-  const result = await prisma.$transaction(async (tnx :any) => {
+  const result = await prisma.$transaction(async (tnx: any) => {
     return await tnx.user.create({
       data: {
         fullName,
         email,
         password: hashPassword,
-        profileImage: profileImageUrl ?? null,
-        bio: bio ?? null,
         travelInterests: travelInterests ?? [],
         visitedCountries: visitedCountries ?? [],
         currentLocation: currentLocation ?? null,
@@ -49,39 +44,50 @@ const userGetById = async (id: any) => {
     where: {
       id: id,
     },
-    include:{
-      reviews:{
-        select:{
-          rating:true
-        }
-      }
-    }
-  });
-
-  return result;
-};
-
-const getAllUsers = async () => {
-  const result = await prisma.user.findMany()
-  return result;
-};
-
-
-const updateUser = async (payload:any, id: any) => {
-  const {password, ...payloadInfo} = payload;
-  const result = await prisma.user.update({
-    where: {
-      id: id,
+    include: {
+      reviews: {
+        select: {
+          rating: true,
+        },
+      },
     },
-    data: payloadInfo,
   });
 
   return result;
 };
+
+const getAllUsers = async (p0: string) => {
+  const result = await prisma.user.findMany();
+  return result;
+};
+
+
+const updateUser = async (req: Request, id: string) => {
+  let profileImageUrl: string | undefined;
+
+  if (req.file) {
+    const uploadResult = await fileUploader.uploadCloudinary(req.file);
+    profileImageUrl = uploadResult?.secure_url;
+  }
+
+  const payload = req.body;
+
+  if (profileImageUrl) {
+    payload.profileImage = profileImageUrl;
+  }
+
+  const result = await prisma.user.update({
+    where: { id },
+    data: payload,
+  });
+
+  return result;
+};
+
 
 export const userService = {
   createUser,
   userGetById,
   updateUser,
-  getAllUsers
+  getAllUsers,
 };
