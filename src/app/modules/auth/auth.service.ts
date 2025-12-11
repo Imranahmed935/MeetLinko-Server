@@ -26,8 +26,8 @@ const login = async (payload: { email: string; password: string }) => {
 
   const refreshToken = jwtHelper.generateToken(
     { email: user.email, role: user.role },
-    "abcdefgh",
-    "90d"
+    config.jwt.refresh_token_secret as string,
+    "30d"
   );
 
   return {
@@ -36,35 +36,6 @@ const login = async (payload: { email: string; password: string }) => {
   };
 };
 
-// const getMe = async (cookies: any) => {
-//   const accessToken = cookies.accessToken;
-
-//   if (!accessToken) {
-//     throw new ApiError(401, "Access Token not found");
-//   }
-
-//   const decodedData = jwtHelper.verifyToken(
-//     accessToken,
-//     config.jwt.jwt_secret as Secret
-//   );
-
-//   const userData = await prisma.user.findUniqueOrThrow({
-//     where: {
-//       email: decodedData.email,
-//     },
-//     select: {
-//       id: true,
-//       fullName:true,
-//       email: true,
-//       role: true,
-//       createdAt: true,
-//       updatedAt: true,
-//     },
-//   });
-
-//   console.log("User Data:", userData);
-//   return userData;
-// };
 
 const getMe = async (cookies: any) => {
   const accessToken = cookies.accessToken;

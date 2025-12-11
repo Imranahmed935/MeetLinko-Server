@@ -12,7 +12,7 @@ const login = catchAsync(async (req: Request, res: Response) => {
         secure: true,
         httpOnly: true,
         sameSite: "none",
-        maxAge: 1000 * 60 * 60
+        maxAge: 1000 * 60 * 60 * 24 * 7
     })
     res.cookie("refreshToken", refreshToken, {
         secure: true,
@@ -36,7 +36,7 @@ const logOut = catchAsync(async (req: Request, res: Response) => {
         secure: true,
         httpOnly: true,
         sameSite: "none",
-        maxAge: 1000 * 60 * 60
+        maxAge: 1000 * 60 * 60 * 24 * 7
     })
     res.clearCookie("refreshToken",{
         secure: true,
