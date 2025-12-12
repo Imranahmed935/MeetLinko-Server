@@ -303,31 +303,31 @@ export type UserOrderByWithRelationInput = {
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
-  email?: string
-  AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  OR?: Prisma.UserWhereInput[]
-  NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
-  fullName?: Prisma.StringFilter<"User"> | string
-  password?: Prisma.StringFilter<"User"> | string
-  profileImage?: Prisma.StringNullableFilter<"User"> | string | null
-  bio?: Prisma.StringNullableFilter<"User"> | string | null
-  travelInterests?: Prisma.StringNullableListFilter<"User">
-  visitedCountries?: Prisma.StringNullableListFilter<"User">
-  currentLocation?: Prisma.StringNullableFilter<"User"> | string | null
-  contactNumber?: Prisma.StringNullableFilter<"User"> | string | null
-  userStatus?: Prisma.EnumStatusFilter<"User"> | $Enums.Status
-  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
-  verified?: Prisma.BoolFilter<"User"> | boolean
-  subscriptionActive?: Prisma.BoolFilter<"User"> | boolean
-  subscriptionExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
-  travelPlans?: Prisma.TravelPlanListRelationFilter
-  joinedPlans?: Prisma.TravelPlanListRelationFilter
-  reviews?: Prisma.ReviewListRelationFilter
-  payments?: Prisma.PaymentListRelationFilter
+  id?: string | undefined
+  email?: string | undefined
+  AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[] | undefined
+  OR?: Prisma.UserWhereInput[] | undefined
+  NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[] | undefined
+  fullName?: Prisma.StringFilter<"User"> | string | undefined
+  password?: Prisma.StringFilter<"User"> | string | undefined
+  profileImage?: Prisma.StringNullableFilter<"User"> | string | null | undefined
+  bio?: Prisma.StringNullableFilter<"User"> | string | null | undefined
+  travelInterests?: Prisma.StringNullableListFilter<"User"> | undefined
+  visitedCountries?: Prisma.StringNullableListFilter<"User"> | undefined
+  currentLocation?: Prisma.StringNullableFilter<"User"> | string | null | undefined
+  contactNumber?: Prisma.StringNullableFilter<"User"> | string | null | undefined
+  userStatus?: Prisma.EnumStatusFilter<"User"> | $Enums.Status | undefined
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role | undefined
+  verified?: Prisma.BoolFilter<"User"> | boolean | undefined
+  subscriptionActive?: Prisma.BoolFilter<"User"> | boolean | undefined
+  subscriptionExpiresAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null | undefined
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string | undefined
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string | undefined
+  subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null | undefined
+  travelPlans?: Prisma.TravelPlanListRelationFilter | undefined
+  joinedPlans?: Prisma.TravelPlanListRelationFilter | undefined
+  reviews?: Prisma.ReviewListRelationFilter | undefined
+  payments?: Prisma.PaymentListRelationFilter | undefined
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {

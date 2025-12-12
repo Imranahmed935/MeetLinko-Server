@@ -57,8 +57,6 @@ const updateStatus = catchAsync(async (req, res) => {
 });
 
 
-
-
 const deleteUserById = catchAsync(async (req: Request, res: Response) => {
   const {id} = req.params;
   const result = await adminService.deleteUserById(id as string);
@@ -138,6 +136,17 @@ const getAllReview = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+ const getVerifiedUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await adminService.getVerifiedUser();
+  return sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "verified user retrieved successfully!",
+    data:result ,
+  });
+});
+
 export const adminController ={
     getAllUser,
     getAllTravelPlan,
@@ -149,6 +158,7 @@ export const adminController ={
     deletePlanById,
     updateStatus,
     deleteReviewById,
-    getAdminStats
+    getAdminStats,
+    getVerifiedUser
     
 }

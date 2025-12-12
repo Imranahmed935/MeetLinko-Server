@@ -210,6 +210,15 @@ export const getAdminStats = async () => {
     },
   };
 };
+
+export const getVerifiedUser = async () => {
+  const result = await prisma.user.findMany({
+    where:{
+      verified:true
+    }
+  })
+  return result
+};
  
 
 
@@ -224,5 +233,6 @@ export const adminService = {
   deletePlanById,
   getPlanById,
   updateStatus,
-  getAdminStats
+  getAdminStats,
+  getVerifiedUser
 };

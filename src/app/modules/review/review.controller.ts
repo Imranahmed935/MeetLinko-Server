@@ -48,6 +48,17 @@ const updateReview = catchAsync(async (req: Request, res: Response) => {
 });
 
 
+const getAllTestimonial = catchAsync(async (req: Request, res: Response) => {
+  const result = await reviewsService.getAllTestimonial();
+  sendResponse(res, {
+    statusCode: 201,
+    success: true,
+    message: "Review retrived Successfully",
+    data: result,
+  });
+});
+
+
 const deleteReview = catchAsync(async (req: Request, res: Response) => {
   const {id} = req.params;
   const result = await reviewsService.deleteReview(id as string);
@@ -64,6 +75,7 @@ export const reviewController = {
   getAllReview,
   getReviewById,
   updateReview,
-  deleteReview
+  deleteReview,
+  getAllTestimonial
 
 };

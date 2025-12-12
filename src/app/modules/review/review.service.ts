@@ -21,6 +21,16 @@ const getAllReview = async (id:string) => {
 };
 
 
+const getAllTestimonial = async () => {
+  const result = await prisma.review.findMany({
+    include:{
+      reviewer:true
+    }
+  })
+  return result;
+};
+
+
 const getReviewById = async (id:string) => {
   const result = await prisma.review.findUnique({
     where:{
@@ -60,5 +70,6 @@ export const reviewsService = {
     getAllReview,
     getReviewById,
     updateReview,
-    deleteReview
+    deleteReview,
+    getAllTestimonial
 }

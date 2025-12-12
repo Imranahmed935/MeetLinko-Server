@@ -53,16 +53,17 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 });
 
 
-const updateUser = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id
-  const result = await userService.updateUser(req, id as string) ;
-  sendResponse(res,{
-    statusCode:201,
-    success:true,
-    message:"Profile Updated Successfully!!",
-    data:result
-  })
+const getTopTraveler = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.getTopTraveler();
+  console.log(result)
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Top rated travelers retrieved successfully!",
+    data: result,
+  });
 });
+
 
 
 
@@ -70,7 +71,7 @@ const updateUser = catchAsync(async (req: Request, res: Response) => {
 export const  userController ={
     createUser,
     userGetById,
-    updateUser,
+   getTopTraveler,
     getAllUsers
  
 }

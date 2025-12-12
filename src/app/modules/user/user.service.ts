@@ -56,8 +56,11 @@ const userGetById = async (id: any) => {
   return result;
 };
 
-
-const getAllUsers = async (filters: { page: number; limit: number; interest?: string }) => {
+const getAllUsers = async (filters: {
+  page: number;
+  limit: number;
+  interest?: string;
+}) => {
   const { page, limit, interest } = filters;
 
   const skip = (page - 1) * limit;
@@ -66,7 +69,7 @@ const getAllUsers = async (filters: { page: number; limit: number; interest?: st
 
   if (interest) {
     where.travelInterests = {
-      has: interest, 
+      has: interest,
     };
   }
 
@@ -89,34 +92,34 @@ const getAllUsers = async (filters: { page: number; limit: number; interest?: st
   };
 };
 
-
-
-const updateUser = async (req: Request, id: string) => {
-  let profileImageUrl: string | undefined;
-
-  if (req.file) {
-    const uploadResult = await fileUploader.uploadCloudinary(req.file);
-    profileImageUrl = uploadResult?.secure_url;
-  }
-
-  const payload = req.body;
-
-  if (profileImageUrl) {
-    payload.profileImage = profileImageUrl;
-  }
-
-  const result = await prisma.user.update({
-    where: { id },
-    data: payload,
+export const getTopTraveler = async () => {
+  const users = await prisma.user.findMany({
+    where: {
+      reviews: { some: {} },
+    },
+    include: {
+      reviews: {
+        select: { rating: true },
+      },
+    },
   });
 
-  return result;
-};
+  const topUsers = users
+    .map((user) => ({
+      ...user,
+      avgRating:
+        user.reviews.reduce((sum, r) => sum + r.rating, 0) /
+        user.reviews.length,
+    }))
+    .sort((a, b) => b.avgRating - a.avgRating)
+    .slice(0, 5);
 
+  return topUsers;
+};
 
 export const userService = {
   createUser,
   userGetById,
-  updateUser,
+  getTopTraveler,
   getAllUsers,
 };
