@@ -1,5 +1,6 @@
 
 import { Status } from "../../../generated/enums";
+import catchAsync from "../../shared/catchAsync";
 import { prisma } from "../../shared/prisma";
 
 const getAllUser = async () => {
@@ -12,8 +13,6 @@ const getAllUser = async () => {
   });
   return result;
 };
-
-
 
 const getUserById = async (id: string) => {
   const result = await prisma.user.findUnique({
@@ -119,6 +118,20 @@ const getAllReview = async () => {
   return result;
 };
 
+export const getAdminStats = async () => {
+  const totalUsers = await prisma.user.count();
+  const totalTravelPlans = await prisma.travelPlan.count();
+  const totalReviews = await prisma.review.count();
+
+  return {
+    users: totalUsers,
+    travelPlans: totalTravelPlans,
+    reviews: totalReviews,
+  };
+};
+ 
+
+
 export const adminService = {
   deleteReviewById,
   getAllUser,
@@ -129,5 +142,6 @@ export const adminService = {
   softDelete,
   deletePlanById,
   getPlanById,
-  updateStatus
+  updateStatus,
+  getAdminStats
 };

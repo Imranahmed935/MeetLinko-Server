@@ -16,6 +16,9 @@ router.get(
   auth(Role.ADMIN, Role.USER),
   adminController.getAllReview
 );
+
+router.get("/stats", auth(Role.ADMIN), adminController.getAdminStats);
+
 router.get("/:id", auth(Role.ADMIN, Role.USER), adminController.getUserById);
 router.patch("/:id", auth(Role.ADMIN), adminController.updateStatus);
 

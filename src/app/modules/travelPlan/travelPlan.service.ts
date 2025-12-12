@@ -1,4 +1,5 @@
 import { prisma } from "../../shared/prisma";
+import { FilterParams, PaginationParams } from "../../type/common";
 import { ICreatePlanInput } from "./travelPlan.interface";
 
 
@@ -62,20 +63,23 @@ const getTravelPlanById = async (id: string) => {
 //   return result;
 // };
 
-interface FilterParams {
-  destination?: string;
-  startDate?: string;
-  endDate?: string;
-  interests?: string[];
-}
 
-export const getAllTravelPlan = async (filters: FilterParams) => {
+export const getAllTravelPlan = async (
+  filters: FilterParams,
+  pagination: PaginationParams
+) => {
   const { destination, startDate, endDate } = filters;
+  const { page, limit } = pagination;
 
-  const where: any = {}; // start with empty
+  const skip = (page - 1) * limit;
+
+  const where: any = {};
 
   if (destination) {
-    where.destination = { contains: destination, mode: "insensitive" };
+    where.destination = {
+      contains: destination,
+      mode: "insensitive",
+    };
   }
 
   if (startDate) {
@@ -86,8 +90,11 @@ export const getAllTravelPlan = async (filters: FilterParams) => {
     where.endDate = { lte: new Date(endDate) };
   }
 
-  const result = await prisma.travelPlan.findMany({
+  const data = await prisma.travelPlan.findMany({
     where,
+    skip,
+    take: limit,
+    orderBy: { createdAt: "desc" },
     include: {
       host: true,
       reviews: true,
@@ -95,8 +102,21 @@ export const getAllTravelPlan = async (filters: FilterParams) => {
     },
   });
 
-  return result;
+  const total = await prisma.travelPlan.count({ where });
+
+  const totalPages = Math.ceil(total / limit);
+
+  return {
+    data,
+    meta: {
+      page,
+      limit,
+      total,
+      totalPages,
+    },
+  };
 };
+
 
 const getMyTravelPlan = async (id: string) => {
   const result = await prisma.travelPlan.findMany({

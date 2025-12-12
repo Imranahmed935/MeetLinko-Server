@@ -5,3 +5,14 @@ export type IJWTPayload = {
   email: string;
   role: Role;
 };
+
+export interface FilterParams {
+  destination?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+export interface PaginationParams {
+  page: number;
+  limit: number;
+}

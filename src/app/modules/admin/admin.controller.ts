@@ -5,6 +5,7 @@ import { adminService } from "./admin.service";
 import { Status } from "../../../generated/enums";
 
 
+
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
   const result = await adminService.getAllUser();
   sendResponse(res,{
@@ -37,7 +38,6 @@ const deleteReviewById = catchAsync(async (req: Request, res: Response) => {
     data:result
   })
 });
-
 
 
 const updateStatus = catchAsync(async (req, res) => {
@@ -128,7 +128,15 @@ const getAllReview = catchAsync(async (req: Request, res: Response) => {
   })
 });
 
-
+ const getAdminStats = catchAsync(async (req: Request, res: Response) => {
+  const stats = await adminService.getAdminStats();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Admin stats retrieved successfully!",
+    data: stats,
+  });
+});
 
 export const adminController ={
     getAllUser,
@@ -140,6 +148,7 @@ export const adminController ={
     getPlanById,
     deletePlanById,
     updateStatus,
-    deleteReviewById
+    deleteReviewById,
+    getAdminStats
     
 }

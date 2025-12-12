@@ -24,15 +24,34 @@ const userGetById = catchAsync(async (req: Request, res: Response) => {
   })
 });
 
+
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const result = await userService.getAllUsers();
-  sendResponse(res,{
-    statusCode:200,
-    success:true,
-    message:"User retrived Successfully!!",
-    data:result
-  })
+  const { page = 1, limit = 10, interest } = req.query;
+
+  const filters: {
+    interest?: string;
+    page: number;
+    limit: number;
+  } = {
+    page: Number(page),
+    limit: Number(limit),
+  };
+
+  if (interest && typeof interest === "string") {
+    filters.interest = interest;
+  }
+
+  const result = await userService.getAllUsers(filters);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Users retrieved successfully!",
+    data: result.data,
+    meta: result.meta,
+  });
 });
+
 
 const updateUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id

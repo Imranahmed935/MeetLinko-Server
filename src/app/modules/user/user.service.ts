@@ -56,10 +56,39 @@ const userGetById = async (id: any) => {
   return result;
 };
 
-const getAllUsers = async () => {
-  const result = await prisma.user.findMany();
-  return result;
+
+const getAllUsers = async (filters: { page: number; limit: number; interest?: string }) => {
+  const { page, limit, interest } = filters;
+
+  const skip = (page - 1) * limit;
+
+  const where: any = {};
+
+  if (interest) {
+    where.travelInterests = {
+      has: interest, 
+    };
+  }
+
+  const users = await prisma.user.findMany({
+    where,
+    skip,
+    take: limit,
+  });
+
+  const total = await prisma.user.count({ where });
+
+  return {
+    data: users,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
 };
+
 
 
 const updateUser = async (req: Request, id: string) => {
