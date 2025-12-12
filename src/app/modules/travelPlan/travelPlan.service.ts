@@ -51,14 +51,50 @@ const getTravelPlanById = async (id: string) => {
   return result;
 };
 
-const getAllTravelPlan = async () => {
+// const getAllTravelPlan = async () => {
+//   const result = await prisma.travelPlan.findMany({
+//     include:{
+//       host:true,
+//       reviews:true,
+//       participants:true
+//     }
+//   });
+//   return result;
+// };
+
+interface FilterParams {
+  destination?: string;
+  startDate?: string;
+  endDate?: string;
+  interests?: string[];
+}
+
+export const getAllTravelPlan = async (filters: FilterParams) => {
+  const { destination, startDate, endDate } = filters;
+
+  const where: any = {}; // start with empty
+
+  if (destination) {
+    where.destination = { contains: destination, mode: "insensitive" };
+  }
+
+  if (startDate) {
+    where.startDate = { gte: new Date(startDate) };
+  }
+
+  if (endDate) {
+    where.endDate = { lte: new Date(endDate) };
+  }
+
   const result = await prisma.travelPlan.findMany({
-    include:{
-      host:true,
-      reviews:true,
-      participants:true
-    }
+    where,
+    include: {
+      host: true,
+      reviews: true,
+      participants: true,
+    },
   });
+
   return result;
 };
 

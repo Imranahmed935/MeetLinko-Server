@@ -33,15 +33,40 @@ const getMyTravelPlan = catchAsync(async (req: Request, res: Response) => {
 
 
 
+// const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
+//   const result = await travelPlanService.getAllTravelPlan();
+//   sendResponse(res, {
+//     statusCode: 200,
+//     success: true,
+//     message: "All Travel Plans Retrieved Successfully!",
+//     data: result,
+//   });
+// });
+
 const getAllTravelPlan = catchAsync(async (req: Request, res: Response) => {
-  const result = await travelPlanService.getAllTravelPlan();
+  const { destination, startDate, endDate } = req.query;
+
+  // Only pass values if they exist
+  const filters: {
+    destination?: string;
+    startDate?: string;
+    endDate?: string;
+  } = {};
+
+  if (destination && typeof destination === "string") filters.destination = destination;
+  if (startDate && typeof startDate === "string") filters.startDate = startDate;
+  if (endDate && typeof endDate === "string") filters.endDate = endDate;
+
+  const result = await travelPlanService.getAllTravelPlan(filters);
+
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "All Travel Plans Retrieved Successfully!",
+    message: "Filtered Travel Plans Retrieved Successfully!",
     data: result,
   });
 });
+
 
 
 const getTravelPlanById = catchAsync(async (req: Request, res: Response) => {

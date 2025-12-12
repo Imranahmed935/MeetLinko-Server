@@ -25,10 +25,9 @@ const userGetById = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
-  const {id} = req.params;
-  const result = await userService.getAllUsers(id as string);
+  const result = await userService.getAllUsers();
   sendResponse(res,{
-    statusCode:201,
+    statusCode:200,
     success:true,
     message:"User retrived Successfully!!",
     data:result

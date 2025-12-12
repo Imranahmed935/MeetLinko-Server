@@ -14,7 +14,8 @@ router.post(
   }
 );
 
-router.get("/:id", userController.getAllUsers)
+router.get("/", userController.getAllUsers)
+// router.get("/:id", userController.getAllUsers)
 router.get("/:id", userController.userGetById)
 
 router.patch(

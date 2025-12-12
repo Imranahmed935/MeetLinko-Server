@@ -1,13 +1,19 @@
-// import { Status } from "../../../generated";
-// import { prisma } from "../../shared/prisma"
 
 import { Status } from "../../../generated/enums";
 import { prisma } from "../../shared/prisma";
 
 const getAllUser = async () => {
-  const result = await prisma.user.findMany();
+  const result = await prisma.user.findMany({
+    where: {
+      role: {
+        not: "ADMIN",
+      },
+    },
+  });
   return result;
 };
+
+
 
 const getUserById = async (id: string) => {
   const result = await prisma.user.findUnique({
@@ -18,6 +24,22 @@ const getUserById = async (id: string) => {
   });
   return result;
 };
+
+
+export const updateStatus = async (
+  id: string,
+  payload: { userStatus: Status }
+) => {
+  const result = await prisma.user.update({
+    where: { id },
+    data: {
+      userStatus: payload.userStatus,
+    },
+  });
+
+  return result;
+};
+
 
 const deleteUserById = async (id: string) => {
   await prisma.payment.deleteMany({
@@ -51,7 +73,11 @@ const softDelete = async (id: string, status: Status) => {
 };
 
 const getAllTravelPlan = async () => {
-  const result = await prisma.travelPlan.findMany();
+  const result = await prisma.travelPlan.findMany({
+    include:{
+      host:true
+    }
+  });
   return result;
 };
 
@@ -60,6 +86,7 @@ const getPlanById = async (id: string) => {
     where: { id },
   });
 };
+
 
 const deletePlanById = async (id: string) => {
   await prisma.review.deleteMany({
@@ -73,12 +100,27 @@ const deletePlanById = async (id: string) => {
   });
 };
 
+
+const deleteReviewById = async (id: string) => {
+  await prisma.review.delete({
+    where:{
+      id:id
+    }
+  })
+};
+
+
 const getAllReview = async () => {
-  const result = await prisma.review.findMany();
+  const result = await prisma.review.findMany({
+    include:{
+      reviewer:true
+    }
+  });
   return result;
 };
 
 export const adminService = {
+  deleteReviewById,
   getAllUser,
   getAllTravelPlan,
   getAllReview,
@@ -87,4 +129,5 @@ export const adminService = {
   softDelete,
   deletePlanById,
   getPlanById,
+  updateStatus
 };

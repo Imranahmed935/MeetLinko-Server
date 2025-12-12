@@ -17,11 +17,14 @@ router.get(
   adminController.getAllReview
 );
 router.get("/:id", auth(Role.ADMIN, Role.USER), adminController.getUserById);
+router.patch("/:id", auth(Role.ADMIN), adminController.updateStatus);
 
 router.delete("/:id", auth(Role.ADMIN), adminController.deleteUserById);
 router.delete("/soft/:id", auth(Role.ADMIN), adminController.softDelete);
 
+router.delete("/review/:id", auth(Role.ADMIN), adminController.deleteReviewById);
+
 router.get("/plan/:id", auth(Role.ADMIN), adminController.getPlanById);
-router.delete("/plan/:id", auth(Role.ADMIN), adminController.deletePlanById);
+router.delete("/plans/:id", auth(Role.ADMIN), adminController.deletePlanById);
 
 export const adminRoutes = router;

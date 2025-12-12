@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import catchAsync from "../../shared/catchAsync";
 import sendResponse from "../../shared/sendResponse";
 import { adminService } from "./admin.service";
+import { Status } from "../../../generated/enums";
 
 
 const getAllUser = catchAsync(async (req: Request, res: Response) => {
@@ -25,6 +26,37 @@ const getUserById = catchAsync(async (req: Request, res: Response) => {
     data:result
   })
 });
+
+const deleteReviewById = catchAsync(async (req: Request, res: Response) => {
+  const {id} = req.params;
+  const result = await adminService.deleteReviewById(id as string);
+  sendResponse(res,{
+    statusCode:200,
+    success:true,
+    message:"Delete review Successfully!!",
+    data:result
+  })
+});
+
+
+
+const updateStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const { userStatus } = req.body;
+
+  const result = await adminService.updateStatus(id as string, {
+    userStatus: userStatus as Status,
+  });
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "User status updated successfully!",
+    data: result,
+  });
+});
+
+
 
 
 const deleteUserById = catchAsync(async (req: Request, res: Response) => {
@@ -106,6 +138,8 @@ export const adminController ={
     deleteUserById,
     softDelete,
     getPlanById,
-    deletePlanById
+    deletePlanById,
+    updateStatus,
+    deleteReviewById
     
 }

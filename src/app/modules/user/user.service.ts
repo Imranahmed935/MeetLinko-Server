@@ -56,7 +56,7 @@ const userGetById = async (id: any) => {
   return result;
 };
 
-const getAllUsers = async (p0: string) => {
+const getAllUsers = async () => {
   const result = await prisma.user.findMany();
   return result;
 };
