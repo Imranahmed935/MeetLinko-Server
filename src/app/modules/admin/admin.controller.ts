@@ -130,11 +130,11 @@ const getAllReview = catchAsync(async (req: Request, res: Response) => {
 
  const getAdminStats = catchAsync(async (req: Request, res: Response) => {
   const stats = await adminService.getAdminStats();
-  sendResponse(res, {
+  return sendResponse(res, {
     statusCode: 200,
     success: true,
     message: "Admin stats retrieved successfully!",
-    data: stats,
+    data: stats.data ? stats.data : stats,
   });
 });
 
