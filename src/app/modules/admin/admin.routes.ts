@@ -4,7 +4,6 @@ import auth from "../../middleware/auth";
 import { Role } from "../../../generated/enums";
 
 const router = express.Router();
-
 router.get("/users", auth(Role.ADMIN, Role.USER), adminController.getAllUser);
 router.get(
   "/travelPlans",

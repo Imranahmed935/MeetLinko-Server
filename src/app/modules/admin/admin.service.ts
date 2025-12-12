@@ -118,15 +118,96 @@ const getAllReview = async () => {
   return result;
 };
 
+// export const getAdminStats = async () => {
+//   const totalUsers = await prisma.user.count();
+//   const totalTravelPlans = await prisma.travelPlan.count();
+//   const totalReviews = await prisma.review.count();
+
+//   return {
+//     users: totalUsers,
+//     travelPlans: totalTravelPlans,
+//     reviews: totalReviews,
+//   };
+// };
+
 export const getAdminStats = async () => {
   const totalUsers = await prisma.user.count();
   const totalTravelPlans = await prisma.travelPlan.count();
   const totalReviews = await prisma.review.count();
 
+  
+  const last7Days = Array.from({ length: 7 }).map((_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }).reverse();
+
+  const formatDate = (date: Date) =>
+    date.toISOString().split("T")[0]; 
+
+  const dailyUsers = await Promise.all(
+    last7Days.map(async (date) => {
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+      const count = await prisma.user.count({
+        where: {
+          createdAt: {
+            gte: date,
+            lt: nextDate,
+          },
+        },
+      });
+      return { date: formatDate(date), count };
+    })
+  );
+
+  const dailyTravelPlans = await Promise.all(
+    last7Days.map(async (date) => {
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+      const count = await prisma.travelPlan.count({
+        where: {
+          createdAt: {
+            gte: date,
+            lt: nextDate,
+          },
+        },
+      });
+      return { date: formatDate(date), count };
+    })
+  );
+
+  const dailyReviews = await Promise.all(
+    last7Days.map(async (date) => {
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
+      const count = await prisma.review.count({
+        where: {
+          createdAt: {
+            gte: date,
+            lt: nextDate,
+          },
+        },
+      });
+      return { date: formatDate(date), count };
+    })
+  );
+
   return {
-    users: totalUsers,
-    travelPlans: totalTravelPlans,
-    reviews: totalReviews,
+    success: true,
+    data: {
+      total: {
+        users: totalUsers,
+        travelPlans: totalTravelPlans,
+        reviews: totalReviews,
+      },
+      daily: {
+        users: dailyUsers,
+        travelPlans: dailyTravelPlans,
+        reviews: dailyReviews,
+      },
+    },
   };
 };
  
